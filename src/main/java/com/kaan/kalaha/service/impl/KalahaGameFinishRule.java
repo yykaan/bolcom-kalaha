@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaStartingPitStoneCheck implements KalahaRule {
-
-    private final KalahaIsGameFinished kalahaIsGameFinished;
+public class KalahaGameFinishRule implements KalahaRule {
+    private final KalahaGameHelper kalahaGameHelper;
+    private final KalahaPostFinishGameRule kalahaPostFinishGameRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        if (isPlayerTurn(kalahaGame, player)) {
+        if (kalahaGame.getKalahaBoard().getPits().stream()
+                .filter(kalahaGameHelper.getGetPlayerPits(playerTurn))
+                .filter(kalahaGameHelper.getGetPlayerOnlyPits())
+                .noneMatch(kalahaGameHelper.getIsPitHasStone())){
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
         return kalahaGame;
@@ -25,13 +28,6 @@ public class KalahaStartingPitStoneCheck implements KalahaRule {
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaIsGameFinished;
-    }
-
-    private boolean isPlayerTurn(KalahaGame kalahaGame, KalahaPlayer kalahaPlayer) {
-        log.info("Checking if player turn {}", kalahaPlayer);
-        boolean isPlayerTurn =  kalahaGame.getPlayerTurn().equals(kalahaPlayer);
-        log.info("Player {} is in turn {}", kalahaPlayer, isPlayerTurn);
-        return isPlayerTurn;
+        return kalahaPostFinishGameRule;
     }
 }

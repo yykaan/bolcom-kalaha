@@ -55,6 +55,10 @@ public class KalahaGameHelper {
         return TOTAL_PIT_COUNT - position;
     }
 
+    public Boolean isStartingPitStore(int position){
+        return position == P1_STORE || position == P2_STORE;
+    }
+
     public Predicate<KalahaPit> getGetPlayerPits(PlayerTurn playerTurn) {
         this.lowerBound = getLowerPositionByPlayerTurn(playerTurn);
         this.upperBound = getUpperPositionByPlayerTurn(playerTurn);
