@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KalahaStartingPitStoneCheck implements KalahaRule {
 
+    private final KalahaIsGameFinished kalahaIsGameFinished;
+
     @Override
     public KalahaGame evaluate(KalahaGame kahalaGame, KalahaPlayer player, int position) {
         if (isPlayerTurn(kahalaGame, player)) {
@@ -22,7 +24,7 @@ public class KalahaStartingPitStoneCheck implements KalahaRule {
 
     @Override
     public KalahaRule getNextRule() {
-        return new KalahaIsGameFinishedRule();
+        return kalahaIsGameFinished;
     }
 
     private boolean isPlayerTurn(KalahaGame kalahaGame, KalahaPlayer kalahaPlayer) {
