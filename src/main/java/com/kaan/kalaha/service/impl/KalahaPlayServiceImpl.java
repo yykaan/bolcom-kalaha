@@ -8,6 +8,7 @@ import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.*;
+import com.kaan.kalaha.service.impl.rules.KalahaGameStartRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
