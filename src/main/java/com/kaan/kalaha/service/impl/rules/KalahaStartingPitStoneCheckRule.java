@@ -17,12 +17,10 @@ public class KalahaStartingPitStoneCheckRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("Checking if player {} has stones in starting pit {}", player, position);
+        log.info("Check if it is player turn {}", player);
         if (isPlayerTurn(kalahaGame, player)) {
-            log.info("Player {} has stones in starting pit {}", player, position);
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
-        log.info("Player {} has stones in starting pit {}", player, position);
         return kalahaGame;
     }
 

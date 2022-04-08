@@ -17,11 +17,11 @@ public class KalahaIsGameFinishedRule implements KalahaRule {
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("Game Finished Rule");
-        if (isGameNotFinished(kalahaGame)){
-            log.info("Game Finished Rule - Game not Finished");
+        if (isGameStillInProgress(kalahaGame)){
+            log.info("Game Finished Rule - Game in progress, evaluate next rule");
             getNextRule().evaluate(kalahaGame, player, position,playerTurn);
         }
-        log.info("Game Finished Rule - Game Finished");
+        log.info("Game Finished Rule - Game Not Started or Finished");
         return kalahaGame;
     }
 
@@ -30,7 +30,7 @@ public class KalahaIsGameFinishedRule implements KalahaRule {
         return playerTurnRule;
     }
 
-    private boolean isGameNotFinished(KalahaGame kalahaGame){
-        return kalahaGame.getGameState() != GameState.FINISHED;
+    private boolean isGameStillInProgress(KalahaGame kalahaGame){
+        return kalahaGame.getGameState() == GameState.IN_PROGRESS;
     }
 }
