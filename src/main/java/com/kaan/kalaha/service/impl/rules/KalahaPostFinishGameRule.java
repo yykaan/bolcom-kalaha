@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl;
+package com.kaan.kalaha.service.impl.rules;
 
 import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
@@ -8,6 +8,7 @@ import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaRule;
+import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

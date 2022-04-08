@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl;
+package com.kaan.kalaha.service.impl.rules;
 
 import com.google.common.collect.Iterables;
 import com.kaan.kalaha.entity.KalahaBoard;
@@ -7,6 +7,7 @@ import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.KalahaRule;
+import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

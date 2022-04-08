@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl;
+package com.kaan.kalaha.service.impl.rules;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
@@ -11,29 +11,27 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaValidateStartingPositionAndStoneCountByTurn implements KalahaRule {
+public class KalahaStartingPitStoneCheckRule implements KalahaRule {
 
-    private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaSowingStoneFromStoreRule kalahaSowingStoneFromStoreRule;
+    private final KalahaIaGameFinishedRule kalahaIaGameFinishedRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-
-        int stones = kalahaGame.getKalahaBoard().getPits().stream()
-                .filter(kalahaGameHelper.getGetPitByPosition(position))
-                .findFirst()
-                .get()
-                .getStones();
-
-        if (kalahaGameHelper.validateStartingPitPositionByPlayerTurn(playerTurn, position, stones)) {
+        if (isPlayerTurn(kalahaGame, player)) {
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
-
         return kalahaGame;
     }
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaSowingStoneFromStoreRule;
+        return kalahaIaGameFinishedRule;
+    }
+
+    private boolean isPlayerTurn(KalahaGame kalahaGame, KalahaPlayer kalahaPlayer) {
+        log.info("Checking if player turn {}", kalahaPlayer);
+        boolean isPlayerTurn =  kalahaGame.getPlayerTurn().equals(kalahaPlayer);
+        log.info("Player {} is in turn {}", kalahaPlayer, isPlayerTurn);
+        return isPlayerTurn;
     }
 }

@@ -1,9 +1,10 @@
-package com.kaan.kalaha.service.impl;
+package com.kaan.kalaha.service.impl.rules;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.KalahaRule;
+import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaIsLastPitOnPlayersHouse implements KalahaRule {
+public class KalahaIaLastPitOnPlayersHouseRule implements KalahaRule {
     private final KalahaGameHelper kalahaGameHelper;
     private final KalahaGameFinishRule kalahaGameFinishRule;
 

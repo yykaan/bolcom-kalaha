@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl;
+package com.kaan.kalaha.service.impl.rules;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
@@ -11,20 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaSowingStoneFromStoreRule implements KalahaRule {
-    private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaIsPitHasStoneRule kalahaIsPitHasStoneRule;
+public class KalahaGameStartRule implements KalahaRule {
+    private final KalahaStartingPitStoneCheckRule kalahaStartingPitStoneCheckRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        if (!kalahaGameHelper.isStartingPitStore(position)) {
-            getNextRule().evaluate(kalahaGame, player, position, playerTurn);
-        }
-        return kalahaGame;
+        return getNextRule().evaluate(kalahaGame, player, position, playerTurn);
     }
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaIsPitHasStoneRule;
+        return kalahaStartingPitStoneCheckRule;
     }
 }
