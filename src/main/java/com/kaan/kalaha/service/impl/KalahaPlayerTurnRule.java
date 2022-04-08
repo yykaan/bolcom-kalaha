@@ -30,10 +30,12 @@ public class KalahaPlayerTurnRule implements KalahaRule {
         if(kalahaPlayer == kalahaGame.getFirstPlayer()) {
             log.info("Player {} is P1 for game {}", kalahaPlayer, kalahaGame);
             playerTurn = PlayerTurn.P1;
+            kalahaGame.setPlayerTurn(kalahaGame.getFirstPlayer());
         }
         else {
             log.info("Player {} is P2 for game {}", kalahaPlayer, kalahaGame);
             playerTurn = PlayerTurn.P2;
+            kalahaGame.setPlayerTurn(kalahaGame.getSecondPlayer());
         }
         return playerTurn;
     }

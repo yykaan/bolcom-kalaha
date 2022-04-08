@@ -4,7 +4,9 @@ import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
+import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +19,14 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class KalahaPostFinishGameRule implements KalahaRule {
     private final KalahaGameHelper kalahaGameHelper;
+    private final KalahaGameService kalahaGameService;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         Arrays.stream(PlayerTurn.values()).forEach(turn -> {
             emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(kalahaGame.getKalahaBoard(), turn);
         });
+        kalahaGameService.updateGameState(kalahaGame, GameState.FINISHED);
 
         return kalahaGame;
     }
