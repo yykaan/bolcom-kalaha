@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Setter
 @ToString
 @Builder
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "KALAHA_PLAYER")
 @SequenceGenerator(name = "kalaha_player_sequence", sequenceName = "kalaha_player_sequence", allocationSize = 1)

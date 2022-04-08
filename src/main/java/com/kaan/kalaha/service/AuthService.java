@@ -13,5 +13,5 @@ public interface AuthService {
 
     SecurityUser register(RegisterRequest registerRequest);
 
-    KalahaPlayer getCurrentUser(String username);
+    KalahaPlayer getCurrentUser();
 }

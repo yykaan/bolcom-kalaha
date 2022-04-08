@@ -31,6 +31,11 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     }
 
     @Override
+    public KalahaGame update(KalahaGame kalahaGame) {
+        return kalahaGameRepository.save(kalahaGame);
+    }
+
+    @Override
     @Transactional
     public KalahaGame joinGame(KalahaPlayer player, Long gameId) {
         log.info("Joining KalahaGame with id: {} for player: {}", gameId, player.toString());

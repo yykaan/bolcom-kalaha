@@ -18,6 +18,7 @@ public class KalahaIaLastPitOnPlayersHouseRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("evaluate: {}", kalahaGame);
 
         if (position != kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
             if (PlayerTurn.P1.equals(playerTurn)) {
@@ -28,6 +29,7 @@ public class KalahaIaLastPitOnPlayersHouseRule implements KalahaRule {
                 playerTurn = PlayerTurn.P1;
             }
         }
+        log.info("evaluate: {}", kalahaGame);
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;
     }

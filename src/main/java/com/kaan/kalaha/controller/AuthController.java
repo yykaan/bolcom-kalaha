@@ -51,10 +51,14 @@ public class AuthController {
 
             cacheManager.save(opaqueToken, jwt);
             cacheManager.save(loginRequest.getUsername(), opaqueToken);
+            log.info("******************************************************************************************");
+            log.info(opaqueToken);
+            log.info(jwt);
+            log.info("******************************************************************************************");
 
             log.info("JWT generated for user {}", securityUser.getUsername());
 
-            response.put("token", jwt);
+            response.put("token", opaqueToken);
             return ResponseEntity.ok(response);
         }else {
             log.error("Login request failed: {}", loginRequest.getUsername());

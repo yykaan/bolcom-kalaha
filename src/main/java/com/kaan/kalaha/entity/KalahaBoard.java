@@ -1,8 +1,8 @@
 package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "KALAHA_BOARD")
 @SequenceGenerator(name = "kalaha_board_sequence", sequenceName = "kalaha_board_sequence", allocationSize = 1)
@@ -19,9 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 public class KalahaBoard extends BaseEntity{
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "kalahaBoard")
-    private List<KalahaPit> pits;
+    private List<KalahaPit> pits = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToOne
     @JsonBackReference
     @JoinColumn(name = "game_id", nullable = false)

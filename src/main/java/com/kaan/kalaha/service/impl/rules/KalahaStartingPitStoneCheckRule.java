@@ -13,19 +13,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KalahaStartingPitStoneCheckRule implements KalahaRule {
 
-    private final KalahaIaGameFinishedRule kalahaIaGameFinishedRule;
+    private final KalahaIsGameFinishedRule kalahaIsGameFinishedRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Checking if player {} has stones in starting pit {}", player, position);
         if (isPlayerTurn(kalahaGame, player)) {
+            log.info("Player {} has stones in starting pit {}", player, position);
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        log.info("Player {} has stones in starting pit {}", player, position);
         return kalahaGame;
     }
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaIaGameFinishedRule;
+        return kalahaIsGameFinishedRule;
     }
 
     private boolean isPlayerTurn(KalahaGame kalahaGame, KalahaPlayer kalahaPlayer) {

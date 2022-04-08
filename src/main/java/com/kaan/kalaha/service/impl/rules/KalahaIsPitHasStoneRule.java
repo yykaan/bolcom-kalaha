@@ -24,16 +24,18 @@ public class KalahaIsPitHasStoneRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Evaluating KalahaIsPitHasStoneRule");
         KalahaBoard kalahaBoard = kalahaGame.getKalahaBoard();
         KalahaPit startingKalahaPit = Iterables.getOnlyElement(kalahaBoard.getPits().stream()
                 .filter(kalahaGameHelper.getGetPitByPosition(position))
                 .collect(Collectors.toList()));
 
         int stones = startingKalahaPit.getStones();
-
+        log.info("Stones: {}", stones);
         if (stones > 0) {
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        log.info("Evaluated KalahaIsPitHasStoneRule");
         return kalahaGame;
     }
 

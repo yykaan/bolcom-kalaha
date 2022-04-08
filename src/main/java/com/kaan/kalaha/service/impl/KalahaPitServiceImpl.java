@@ -3,6 +3,7 @@ package com.kaan.kalaha.service.impl;
 import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.enums.PitType;
+import com.kaan.kalaha.repository.KalahaBoardRepository;
 import com.kaan.kalaha.repository.KalahaPitRepository;
 import com.kaan.kalaha.service.KalahaPitService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class KalahaPitServiceImpl implements KalahaPitService {
     private final KalahaPitRepository kalahaPitRepository;
+    private final KalahaBoardRepository kalahaBoardRepository;
 
     /**
      * Function to create a KalahaPit
@@ -34,6 +36,8 @@ public class KalahaPitServiceImpl implements KalahaPitService {
         log.info("Saving KalahaPit {}", kalahaPit);
         kalahaPitRepository.save(kalahaPit);
         log.info("KalahaPit saved {}", kalahaPit);
+        kalahaBoard.getPits().add(kalahaPit);
+        kalahaBoardRepository.save(kalahaBoard);
 
         return kalahaPit;
     }

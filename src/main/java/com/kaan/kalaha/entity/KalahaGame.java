@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "KALAHA_GAME")
 @SequenceGenerator(name = "kalaha_game_sequence", sequenceName = "kalaha_game_sequence", allocationSize = 1)
@@ -30,9 +29,10 @@ public class KalahaGame extends BaseEntity{
     @JoinColumn(name = "player_turn_id")
     private KalahaPlayer playerTurn;
 
-    @OneToOne
+    @ToString.Exclude
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id")
     private KalahaBoard kalahaBoard;
 
 

@@ -3,7 +3,6 @@ package com.kaan.kalaha.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kaan.kalaha.enums.PitType;
 import lombok.*;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -11,16 +10,12 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Builder
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "KALAHA_PIT")
 @SequenceGenerator(name = "kalaha_pit_sequence", sequenceName = "kalaha_pit_sequence", allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 public class KalahaPit extends BaseEntity {
-
-    @Column(name = "PIT_INDEX")
-    private Integer index;
 
     @Column(name = "STONES")
     private Integer stones;
@@ -32,6 +27,7 @@ public class KalahaPit extends BaseEntity {
     @Column(name = "PIT_TYPE")
     private PitType pitType;
 
+    @ToString.Exclude
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "KALAHABOARD_ID", nullable = false)

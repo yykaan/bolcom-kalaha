@@ -19,17 +19,19 @@ public class KalahaValidateStartingPositionAndStoneCountByTurnRule implements Ka
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-
+        log.info("Evaluating KalahaValidateStartingPositionAndStoneCountByTurnRule");
         int stones = kalahaGame.getKalahaBoard().getPits().stream()
                 .filter(kalahaGameHelper.getGetPitByPosition(position))
                 .findFirst()
                 .get()
                 .getStones();
+        log.info("Stones: {}", stones);
 
         if (kalahaGameHelper.validateStartingPitPositionByPlayerTurn(playerTurn, position, stones)) {
+            log.info("Starting pit position is valid");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
-
+        log.info("Evaluating KalahaValidateStartingPositionAndStoneCountByTurnRule completed");
         return kalahaGame;
     }
 

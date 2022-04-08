@@ -9,6 +9,8 @@ import java.util.List;
 public interface KalahaGameService {
     KalahaGame createNewGame(KalahaPlayer player);
 
+    KalahaGame update(KalahaGame kalahaGame);
+
     KalahaGame joinGame(KalahaPlayer player, Long gameId);
 
     KalahaGame switchTurn(KalahaPlayer player, Long gameId);

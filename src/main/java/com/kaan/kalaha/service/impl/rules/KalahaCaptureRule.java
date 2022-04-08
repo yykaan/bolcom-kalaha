@@ -19,6 +19,7 @@ public class KalahaCaptureRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Evaluating KalahaCaptureRule");
         KalahaBoard kalahaBoard = kalahaGame.getKalahaBoard();
 
         if (position >= kalahaGameHelper.getLowerPositionByPlayerTurn(playerTurn) &&
@@ -56,8 +57,10 @@ public class KalahaCaptureRule implements KalahaRule {
                             log.info("Player house is empty");
                         });
             }
+            log.info("KalahaCaptureRule evaluated");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        log.info("KalahaCaptureRule not evaluated");
         return kalahaGame;
     }
 

@@ -12,13 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaIaGameFinishedRule implements KalahaRule {
+public class KalahaIsGameFinishedRule implements KalahaRule {
     private final KalahaPlayerTurnRule playerTurnRule;
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        if (isGameFinished(kalahaGame)){
+        log.info("Game Finished Rule");
+        if (isGameNotFinished(kalahaGame)){
+            log.info("Game Finished Rule - Game not Finished");
             getNextRule().evaluate(kalahaGame, player, position,playerTurn);
         }
+        log.info("Game Finished Rule - Game Finished");
         return kalahaGame;
     }
 
@@ -27,7 +30,7 @@ public class KalahaIaGameFinishedRule implements KalahaRule {
         return playerTurnRule;
     }
 
-    private boolean isGameFinished(KalahaGame kalahaGame){
+    private boolean isGameNotFinished(KalahaGame kalahaGame){
         return kalahaGame.getGameState() != GameState.FINISHED;
     }
 }

@@ -44,9 +44,9 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
         log.info("Finding KalahaPlayer with id: {}", playerId);
         KalahaPlayer kalahaPlayer = kalahaPlayerService.getPlayerById(playerId);
 
-        kalahaGameStartRule.evaluate(kalahaGame, kalahaPlayer, position, null);
+        return kalahaGameStartRule.evaluate(kalahaGame, kalahaPlayer, position, null).getKalahaBoard();
 
-        log.info("Check if player turn {}", kalahaPlayer);
+        /*log.info("Check if player turn {}", kalahaPlayer);
         if(isPlayerTurn(kalahaGame, kalahaPlayer) && kalahaGame.getGameState() != GameState.FINISHED) {
             log.info("Checking if player is P1 or P2 {}", kalahaPlayer);
             PlayerTurn playerTurn;
@@ -102,6 +102,7 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
         }
 
         return kalahaBoard;
+        */
     }
 
     private boolean checkFinished(KalahaBoard kalahaBoard, PlayerTurn playerTurn) {

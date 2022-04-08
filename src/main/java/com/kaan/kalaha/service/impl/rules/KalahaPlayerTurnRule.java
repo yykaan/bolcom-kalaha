@@ -15,8 +15,11 @@ public class KalahaPlayerTurnRule implements KalahaRule {
     private final KalahaValidateStartingPositionAndStoneCountByTurnRule kalahaValidateStartingPositionAndStoneCountByTurnRule;
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Evaluating player turn rule for player {} and position {}", player, position);
         playerTurn = determinePlayerTurn(kalahaGame, player);
+        log.info("Player turn is {}", playerTurn);
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
+        log.info("Player turn rule evaluated for player {} and position {}", player, position);
         return kalahaGame;
     }
 

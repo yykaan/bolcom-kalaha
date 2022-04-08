@@ -18,9 +18,12 @@ public class KalahaSowingStoneFromStoreRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Sowing stone from store rule");
         if (!kalahaGameHelper.isStartingPitStore(position)) {
+            log.info("Sowing stone from store rule is not starting pit store");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        log.info("Sowing stone from store rule is starting pit store");
         return kalahaGame;
     }
 

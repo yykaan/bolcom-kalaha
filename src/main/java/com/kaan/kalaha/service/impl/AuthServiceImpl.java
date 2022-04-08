@@ -56,8 +56,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(readOnly = true)
-    public KalahaPlayer getCurrentUser(String username) {
-        log.info("Getting current user: {}", username);
+    public KalahaPlayer getCurrentUser() {
         SecurityUser principal = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return kalahaPlayerService.findPlayerByUsername(principal.getUsername());
     }

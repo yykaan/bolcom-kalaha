@@ -16,6 +16,11 @@ public class KalahaGameStartRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
+        log.info("Game start rule is evaluated");
+        log.info("Player turn is {}", playerTurn);
+        log.info("Player position is {}", position);
+        log.info("Player is {}", player);
+        log.info("Game is {}", kalahaGame);
         return getNextRule().evaluate(kalahaGame, player, position, playerTurn);
     }
 
