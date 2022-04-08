@@ -28,7 +28,7 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
     private final KalahaBoardService kalahaBoardService;
     private final KalahaPlayerService kalahaPlayerService;
     private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaStartingPitStoneCheck kalahaStartingPitStoneCheck;
+    private final KalahaGameStartRule kalahaGameStartRule;
 
 
     @Override
@@ -43,7 +43,7 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
         log.info("Finding KalahaPlayer with id: {}", playerId);
         KalahaPlayer kalahaPlayer = kalahaPlayerService.getPlayerById(playerId);
 
-        kalahaStartingPitStoneCheck.evaluate(kalahaGame, kalahaPlayer, position, null);
+        kalahaGameStartRule.evaluate(kalahaGame, kalahaPlayer, position, null);
 
         log.info("Check if player turn {}", kalahaPlayer);
         if(isPlayerTurn(kalahaGame, kalahaPlayer) && kalahaGame.getGameState() != GameState.FINISHED) {
