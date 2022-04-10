@@ -16,5 +16,5 @@ public interface KalahaBoardRepository extends CrudRepository<KalahaBoard, Long>
      * @param game @{@link KalahaGame} instance
      * @return @{@link KalahaBoard} instance
      */
-    public KalahaBoard findByGame(KalahaGame game);
+    KalahaBoard findByGame(KalahaGame game);
 }

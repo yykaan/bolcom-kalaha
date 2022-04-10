@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaStartingPitStoneCheckRule implements KalahaRule {
+public class KalahaIsPlayerInTurnRule implements KalahaRule {
 
-    private final KalahaIsGameFinishedRule kalahaIsGameFinishedRule;
+    private final KalahaIsGameInProgressRule kalahaIsGameInProgressRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
@@ -21,12 +21,13 @@ public class KalahaStartingPitStoneCheckRule implements KalahaRule {
         if (isPlayerTurn(kalahaGame, player)) {
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        log.info("Player {} is in wrong turn!", player);
         return kalahaGame;
     }
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaIsGameFinishedRule;
+        return kalahaIsGameInProgressRule;
     }
 
     private boolean isPlayerTurn(KalahaGame kalahaGame, KalahaPlayer kalahaPlayer) {

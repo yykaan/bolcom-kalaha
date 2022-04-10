@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaIsGameFinishedRule implements KalahaRule {
+public class KalahaIsGameInProgressRule implements KalahaRule {
     private final KalahaPlayerTurnRule playerTurnRule;
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("Game Finished Rule");
+        log.info("Game is in progress rule is evaluating");
         if (isGameStillInProgress(kalahaGame)){
-            log.info("Game Finished Rule - Game in progress, evaluate next rule");
+            log.info("Game is in progress rule evaluated - Game in progress, evaluate next rule");
             getNextRule().evaluate(kalahaGame, player, position,playerTurn);
         }
-        log.info("Game Finished Rule - Game Not Started or Finished");
+        log.info("Game is in progress rule - Game is {}!", kalahaGame.getGameState());
         return kalahaGame;
     }
 

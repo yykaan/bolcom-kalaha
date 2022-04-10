@@ -29,6 +29,11 @@ public class TestController {
 
     private final KalahaPlayService kalahaPlayService;
 
+    @RequestMapping("/")
+    public String greet(){
+        return "welcome!";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public KalahaGame createNewGame() {
         log.info("Creating new game");

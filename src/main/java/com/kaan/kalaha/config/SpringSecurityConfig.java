@@ -19,8 +19,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers()
                 .frameOptions().disable()
@@ -30,18 +29,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/v1/auth/login",
-                        "/v1/auth/register",
-                        "/h2-console/**",
-                        "/swagger-ui.html",
-                        "/swagger-resources/**",
-                        "/v2/api-docs",
-                        "/webjars/**")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic().disable()
-                .logout().disable();
+                .formLogin()
+                .disable().logout().disable()
+                .csrf();
     }
 }
