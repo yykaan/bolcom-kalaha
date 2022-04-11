@@ -3,15 +3,13 @@ package com.kaan.kalaha.controller;
 import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
-import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PitType;
 import com.kaan.kalaha.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 
@@ -19,7 +17,7 @@ import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/game")
-public class TestController {
+public class GameController {
 
     private final KalahaBoardService boardService;
     private final KalahaGameService gameService;
@@ -28,7 +26,12 @@ public class TestController {
 
     private final KalahaPlayService kalahaPlayService;
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @GetMapping("/{gameId}")
+    public KalahaGame getGameById(@PathVariable Long gameId){
+        return gameService.getGameById(gameId);
+    }
+
+    @PostMapping(value = "/create")
     public KalahaGame createNewGame() {
         log.info("Creating new game");
 
@@ -60,19 +63,33 @@ public class TestController {
         return game;
     }
 
-    @RequestMapping(value = "/move/{position}", method = RequestMethod.POST)
-    public KalahaBoard doMove(@PathVariable int position) {
+    @PostMapping(value = "{gameId}/move/{position}")
+    public KalahaGame doMove(@PathVariable long gameId, @PathVariable int position) {
         log.info("Starting move for Player");
 
         // Get info
         KalahaPlayer player = authService.getCurrentUser();
 
-        KalahaGame game = gameService.getGameById(2L);
+        KalahaGame game = gameService.getGameById(gameId);
 
         // Do move
-        KalahaBoard board = kalahaPlayService.move(game.getId(), player.getId(), position);
+        return kalahaPlayService.move(game.getId(), player.getId(), position);
+    }
 
+    @PostMapping(value = "/join/{id}")
+    public KalahaGame joinGame(@PathVariable Long id) {
+        log.info("Joining game");
 
-        return board;
+        // Get logged in player
+        KalahaPlayer player = authService.getCurrentUser();
+
+        return gameService.joinGame(player, id);
+    }
+
+    @GetMapping(value = "/list")
+    public List<KalahaGame> getGamesToJoin() {
+        log.info("Getting games to Join");
+
+        return gameService.getGamesToJoin(authService.getCurrentUser());
     }
 }

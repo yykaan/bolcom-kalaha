@@ -13,13 +13,9 @@ public interface KalahaGameService {
 
     KalahaGame joinGame(KalahaPlayer player, Long gameId);
 
-    KalahaGame switchTurn(KalahaPlayer player, Long gameId);
-
     KalahaGame updateGameState(KalahaGame game, GameState gameState);
 
     KalahaGame getGameById(Long id);
 
     List<KalahaGame> getGamesToJoin(KalahaPlayer player);
-
-    List<KalahaGame> getPlayerGames(KalahaPlayer player);
 }

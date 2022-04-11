@@ -1,5 +1,6 @@
 package com.kaan.kalaha.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -24,6 +25,7 @@ public class KalahaPlayer extends BaseEntity{
     @Column(name = "EMAIL", unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 

@@ -1,9 +1,7 @@
 package com.kaan.kalaha.service.impl;
 
-import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
-import com.kaan.kalaha.service.KalahaBoardService;
 import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaPlayService;
 import com.kaan.kalaha.service.KalahaPlayerService;
@@ -25,14 +23,14 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
 
     @Override
     @Transactional
-    public KalahaBoard move(Long gameId, Long playerId, int position) {
+    public KalahaGame move(Long gameId, Long playerId, int position) {
         log.info("Finding KalahaGame with id: {}", gameId);
         KalahaGame kalahaGame = kalahaGameService.getGameById(gameId);
 
         log.info("Finding KalahaPlayer with id: {}", playerId);
-        KalahaPlayer kalahaPlayer = kalahaPlayerService.getPlayerById(playerId);
+        final KalahaPlayer kalahaPlayer = kalahaPlayerService.getPlayerById(playerId);
 
         kalahaGameStartRule.evaluate(kalahaGame, kalahaPlayer, position, null);
-        return kalahaGameService.update(kalahaGame).getKalahaBoard();
+        return kalahaGameService.update(kalahaGame);
     }
 }

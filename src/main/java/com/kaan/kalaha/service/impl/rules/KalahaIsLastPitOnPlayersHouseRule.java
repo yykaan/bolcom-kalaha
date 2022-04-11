@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KalahaIaLastPitOnPlayersHouseRule implements KalahaRule {
+public class KalahaIsLastPitOnPlayersHouseRule implements KalahaRule {
     private final KalahaGameHelper kalahaGameHelper;
     private final KalahaGameFinishRule kalahaGameFinishRule;
 
@@ -29,6 +29,7 @@ public class KalahaIaLastPitOnPlayersHouseRule implements KalahaRule {
                 playerTurn = PlayerTurn.P1;
             }
         }
+        switchTurn(kalahaGame);
         log.info("evaluate: {}", kalahaGame);
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;

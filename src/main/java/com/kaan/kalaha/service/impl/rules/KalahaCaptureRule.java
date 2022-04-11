@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KalahaCaptureRule implements KalahaRule {
     private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaIaLastPitOnPlayersHouseRule kalahaIaLastPitOnPlayersHouseRule;
+    private final KalahaIsLastPitOnPlayersHouseRule kalahaIsLastPitOnPlayersHouseRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
@@ -60,12 +60,13 @@ public class KalahaCaptureRule implements KalahaRule {
             log.info("KalahaCaptureRule evaluated");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        switchTurn(kalahaGame);
         log.info("KalahaCaptureRule not evaluated");
         return kalahaGame;
     }
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaIaLastPitOnPlayersHouseRule;
+        return kalahaIsLastPitOnPlayersHouseRule;
     }
 }

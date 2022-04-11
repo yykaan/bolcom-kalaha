@@ -31,6 +31,7 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     }
 
     @Override
+    @Transactional
     public KalahaGame update(KalahaGame kalahaGame) {
         return kalahaGameRepository.save(kalahaGame);
     }
@@ -42,6 +43,10 @@ public class KalahaGameServiceImpl implements KalahaGameService {
         KalahaGame kalahaGame = getGameById(gameId);
         log.info("KalahaGame found, joining the game: {}", kalahaGame.toString());
 
+
+        if (player.equals(kalahaGame.getFirstPlayer()) || player.equals(kalahaGame.getSecondPlayer())){
+            return kalahaGame;
+        }
         // Set Second player
         log.info("Setting second player: {}", player);
         kalahaGame.setSecondPlayer(player);
@@ -58,24 +63,6 @@ public class KalahaGameServiceImpl implements KalahaGameService {
         log.info("KalahaGame saved: {}", kalahaGame);
 
         return kalahaGame;
-    }
-
-    @Override
-    @Transactional
-    public KalahaGame switchTurn(KalahaPlayer player, Long gameId) {
-        log.info("Switching turn for KalahaGame with id: {} for player: {}", gameId, player.toString());
-        KalahaGame game = getGameById(gameId);
-        log.info("KalahaGame found: {}", game.toString());
-
-        log.info("Turn switching for game: {} and for player: {}", gameId, player);
-        game.setPlayerTurn(player);
-        log.info("Turn switched: {}", game);
-
-        log.info("Saving KalahaGame for switching turn: {}", game);
-        kalahaGameRepository.save(game);
-        log.info("KalahaGame saved for switching turn: {}", game);
-
-        return game;
     }
 
     @Override
@@ -98,13 +85,11 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     @Override
     @Transactional(readOnly = true)
     public KalahaGame getGameById(Long id) {
-        log.info("Getting KalahaGame with id: {}", id);
         KalahaGame kalahaGame = kalahaGameRepository.findById(id).orElse(null);
         if (kalahaGame == null) {
             log.error("KalahaGame not found with id: {}", id);
             return null;
         }else {
-            log.info("KalahaGame found: {}", kalahaGame);
             return kalahaGame;
         }
     }
@@ -116,18 +101,6 @@ public class KalahaGameServiceImpl implements KalahaGameService {
         return kalahaGameRepository.findByGameState(GameState.WAITING_FOR_OTHER_PLAYER)
                 .stream().filter(
                         kalahaGame -> kalahaGame.getFirstPlayer() != player
-                ).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<KalahaGame> getPlayerGames(KalahaPlayer player) {
-        log.info("Getting KalahaGames for player: {}", player.toString());
-        return kalahaGameRepository.findByGameState(GameState.IN_PROGRESS)
-                .stream().filter(
-                        game -> (game.getFirstPlayer() == player ||
-                                game.getSecondPlayer() == player)
-
                 ).collect(Collectors.toList());
     }
 }

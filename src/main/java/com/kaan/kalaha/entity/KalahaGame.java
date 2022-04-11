@@ -1,6 +1,5 @@
 package com.kaan.kalaha.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kaan.kalaha.enums.GameState;
 import lombok.*;

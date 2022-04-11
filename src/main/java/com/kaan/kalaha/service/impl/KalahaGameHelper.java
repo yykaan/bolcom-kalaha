@@ -1,5 +1,6 @@
 package com.kaan.kalaha.service.impl;
 
+import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.enums.PitType;
 import com.kaan.kalaha.enums.PlayerTurn;
@@ -57,6 +58,18 @@ public class KalahaGameHelper {
 
     public Boolean isStartingPitStore(int position){
         return position == P1_STORE || position == P2_STORE;
+    }
+
+    public PlayerTurn getPlayerTurn(KalahaGame kalahaGame){
+        if (kalahaGame.getPlayerTurn() == null){
+            return PlayerTurn.P1;
+        }else {
+            if (kalahaGame.getPlayerTurn().equals(kalahaGame.getFirstPlayer())){
+                return PlayerTurn.P1;
+            }else {
+                return PlayerTurn.P2;
+            }
+        }
     }
 
     public Predicate<KalahaPit> getGetPlayerPits(PlayerTurn playerTurn) {

@@ -3,6 +3,7 @@ package com.kaan.kalaha.controller;
 import com.kaan.kalaha.config.cache.CacheManager;
 import com.kaan.kalaha.dto.LoginRequest;
 import com.kaan.kalaha.dto.RegisterRequest;
+import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.util.JwtUtil;
 import com.kaan.kalaha.service.AuthService;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,10 +50,6 @@ public class AuthController {
 
             cacheManager.save(opaqueToken, jwt);
             cacheManager.save(loginRequest.getUsername(), opaqueToken);
-            log.info("******************************************************************************************");
-            log.info(opaqueToken);
-            log.info(jwt);
-            log.info("******************************************************************************************");
 
             log.info("JWT generated for user {}", securityUser.getUsername());
 
@@ -68,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<SecurityUser> registerUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Void> registerUser(@RequestBody RegisterRequest registerRequest) {
         log.info("Register request received: {}", registerRequest.getUsername());
         SecurityUser securityUser = authService.register(registerRequest);
         if (securityUser != null) {
@@ -78,5 +72,10 @@ public class AuthController {
             log.error("Register request failed: {}", registerRequest.getUsername());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<KalahaPlayer> getCurrentUser(){
+        return ResponseEntity.ok(authService.getCurrentUser());
     }
 }

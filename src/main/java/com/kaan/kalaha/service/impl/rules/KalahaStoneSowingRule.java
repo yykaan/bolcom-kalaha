@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
-import static com.kaan.kalaha.constant.KalahaGameConstants.P1_STORE;
-import static com.kaan.kalaha.constant.KalahaGameConstants.P2_STORE;
+import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 
 @Service
 @Slf4j
@@ -53,6 +52,10 @@ public class KalahaStoneSowingRule implements KalahaRule {
                     pitIndex++;
                     continue;
                 }
+            }
+
+            if (pitIndex > TOTAL_PIT_COUNT){
+                pitIndex = P1_LOWER_BOUNDARY;
             }
 
             KalahaPit kalahaPit = Iterables.getOnlyElement(kalahaBoard.getPits().stream()

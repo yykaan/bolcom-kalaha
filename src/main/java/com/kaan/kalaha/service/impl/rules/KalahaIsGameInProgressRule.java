@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class KalahaIsGameInProgressRule implements KalahaRule {
-    private final KalahaPlayerTurnRule playerTurnRule;
+    private final KalahaValidateStartingPositionAndStoneCountByTurnRule kalahaValidateStartingPositionAndStoneCountByTurnRule;
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("Game is in progress rule is evaluating");
@@ -27,7 +27,7 @@ public class KalahaIsGameInProgressRule implements KalahaRule {
 
     @Override
     public KalahaRule getNextRule() {
-        return playerTurnRule;
+        return kalahaValidateStartingPositionAndStoneCountByTurnRule;
     }
 
     private boolean isGameStillInProgress(KalahaGame kalahaGame){
