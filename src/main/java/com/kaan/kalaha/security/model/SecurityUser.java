@@ -7,7 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public record SecurityUser(String username) implements UserDetails {
+public class SecurityUser implements UserDetails {
+    private final String username;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -42,5 +43,9 @@ public record SecurityUser(String username) implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public SecurityUser(String username) {
+        this.username = username;
     }
 }

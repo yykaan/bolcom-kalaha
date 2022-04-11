@@ -5,6 +5,7 @@ import com.kaan.kalaha.dto.RegisterRequest;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.service.UserDetailsServiceImpl;
+import com.kaan.kalaha.security.util.JwtUtil;
 import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaPlayerService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class AuthServiceImpl implements AuthService {
     public boolean isPasswordTrue(LoginRequest loginRequest) {
         KalahaPlayer kalahaPlayer = kalahaPlayerService.findPlayerByUsername(loginRequest.getUsername());
         return passwordEncoder.matches(loginRequest.getPassword(), kalahaPlayer.getPassword());
+    }
+
+    @Override
+    public String generateJwtToken(SecurityUser securityUser) {
+        return JwtUtil.generateToken(securityUser);
     }
 
     @Override

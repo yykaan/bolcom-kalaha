@@ -9,6 +9,8 @@ public interface AuthService {
 
     boolean isPasswordTrue(LoginRequest loginRequest);
 
+    String generateJwtToken(SecurityUser securityUser);
+
     SecurityUser loadUserByUserName(String username);
 
     SecurityUser register(RegisterRequest registerRequest);

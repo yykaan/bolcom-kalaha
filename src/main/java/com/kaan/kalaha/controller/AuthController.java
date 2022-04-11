@@ -45,7 +45,7 @@ public class AuthController {
 
             Map<String, Object> response = new HashMap<>();
 
-            String jwt = JwtUtil.generateToken(securityUser);
+            String jwt = authService.generateJwtToken(securityUser);
             String opaqueToken = UUID.randomUUID().toString();
 
             cacheManager.save(opaqueToken, jwt);

@@ -1,7 +1,6 @@
 package com.kaan.kalaha.security.util;
 
 
-import com.kaan.kalaha.context.ApplicationContextProvider;
 import com.kaan.kalaha.exception.JWTTokenException;
 import com.kaan.kalaha.security.model.SecurityUser;
 import io.jsonwebtoken.*;
@@ -9,10 +8,9 @@ import io.jsonwebtoken.*;
 import java.util.Date;
 import java.util.Optional;
 
-
 public class JwtUtil {
 
-    public static String SECRET_KEY = ApplicationContextProvider.getProperty("jwt.secret");
+    public static String SECRET_KEY = "superSecret";
 
     public static String generateToken(SecurityUser user) {
         Date currentDate = new Date();

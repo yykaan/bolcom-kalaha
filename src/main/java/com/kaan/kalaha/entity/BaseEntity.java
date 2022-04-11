@@ -27,15 +27,7 @@ public abstract class BaseEntity implements Serializable {
     @CreatedBy
     private String createdBy;
 
-    @Column(name = "CREATED_DATE", updatable = false, nullable = false)
-    @CreationTimestamp
-    private OffsetDateTime createdDate;
-
     @Column(name = "MODIFIED_BY")
     @LastModifiedBy
     private String modifiedBy;
-
-    @Column(name = "UPDATED_DATE")
-    @UpdateTimestamp
-    private OffsetDateTime updatedDate;
 }
