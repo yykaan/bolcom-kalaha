@@ -64,6 +64,9 @@ public class KalahaStoneSowingRule implements KalahaRule {
             kalahaPit.setStones(kalahaPit.getStones() + 1);
             log.info("KalahaGame {} ,sowed stones to KalahaPit {}", kalahaGame, kalahaPit);
 
+            if (stones == 1){
+                break;
+            }
             pitIndex++;
             stones--;
         }

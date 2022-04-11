@@ -8,4 +8,6 @@ public final class KalahaGameConstants {
     public static final int P2_UPPER_BOUNDARY = 13;
     public static final int P1_STORE = 7;
     public static final int P2_STORE = 14;
+    public static final int HOUSE_STONE_INITIAL_COUNT = 0;
+    public static final int PIT_STONE_INITIAL_COUNT = 6;
 }

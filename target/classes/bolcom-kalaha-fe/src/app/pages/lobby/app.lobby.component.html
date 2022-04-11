@@ -1,0 +1,45 @@
+<div>
+    <div>
+        <div>
+            <p>Lobby</p>
+          <div class="row">
+            <!-- FORM for creating new game -->
+            <div class="col-md-6">
+
+              <h2 class="lead">Create a new game</h2>
+              <button type="button" (click)="createNewGame()">New Game</button>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="games">
+            <div class="col-md-6">
+
+              <table class="table table-hover table-striped table-condensed">
+                <h2>Join existing game</h2>
+                <thead>
+                <td>Started player</td>
+                <td>Game state</td>
+                <td></td>
+                </thead>
+                <tbody>
+                <tr *ngFor="let game of games">
+                  <td>First Player Username: {{game.firstPlayer.username}}</td>
+                  <td>Game State: {{game.gameState}}</td>
+                  <td>
+                    <button type="submit" (click)="joinGame(game.id)">
+                      <span class="glyphicon glyphicon-plus"></span> Join </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+              <div *ngIf="!games.length">
+                No games to join.
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

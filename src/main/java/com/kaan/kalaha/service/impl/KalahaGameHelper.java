@@ -72,7 +72,7 @@ public class KalahaGameHelper {
         }
     }
 
-    public Predicate<KalahaPit> getGetPlayerPits(PlayerTurn playerTurn) {
+    public Predicate<KalahaPit> getPlayerPits(PlayerTurn playerTurn) {
         this.lowerBound = getLowerPositionByPlayerTurn(playerTurn);
         this.upperBound = getUpperPositionByPlayerTurn(playerTurn);
         return getPlayerPits;

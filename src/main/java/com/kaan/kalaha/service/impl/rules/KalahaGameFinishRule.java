@@ -20,12 +20,18 @@ public class KalahaGameFinishRule implements KalahaRule {
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("Game finish rule is evaluated");
         if (kalahaGame.getKalahaBoard().getPits().stream()
-                .filter(kalahaGameHelper.getGetPlayerPits(playerTurn))
+                .filter(kalahaGameHelper.getPlayerPits(PlayerTurn.P1))
                 .filter(kalahaGameHelper.getGetPlayerOnlyPits())
-                .noneMatch(kalahaGameHelper.getIsPitHasStone())){
+                .noneMatch(kalahaGameHelper.getIsPitHasStone()) &&
+
+                kalahaGame.getKalahaBoard().getPits().stream()
+                        .filter(kalahaGameHelper.getPlayerPits(PlayerTurn.P2))
+                        .filter(kalahaGameHelper.getGetPlayerOnlyPits())
+                        .noneMatch(kalahaGameHelper.getIsPitHasStone())){
             log.info("Game finish rule is evaluated");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
+        switchTurn(kalahaGame);
         log.info("Game finish rule is evaluated");
         return kalahaGame;
     }

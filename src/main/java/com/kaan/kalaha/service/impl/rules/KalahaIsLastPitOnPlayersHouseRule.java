@@ -20,16 +20,9 @@ public class KalahaIsLastPitOnPlayersHouseRule implements KalahaRule {
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("evaluate: {}", kalahaGame);
 
-        if (position != kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
-            if (PlayerTurn.P1.equals(playerTurn)) {
-                kalahaGame.setPlayerTurn(kalahaGame.getSecondPlayer());
-                playerTurn = PlayerTurn.P2;
-            }else {
-                kalahaGame.setPlayerTurn(kalahaGame.getFirstPlayer());
-                playerTurn = PlayerTurn.P1;
-            }
+        if (position == kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
+            return kalahaGame;
         }
-        switchTurn(kalahaGame);
         log.info("evaluate: {}", kalahaGame);
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;

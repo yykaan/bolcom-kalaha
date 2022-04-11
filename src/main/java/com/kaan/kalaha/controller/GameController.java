@@ -35,29 +35,15 @@ public class GameController {
     public KalahaGame createNewGame() {
         log.info("Creating new game");
 
-        // Retrieve Logged player
-        KalahaPlayer player = authService.getCurrentUser();
-
         // Create a new game
-        KalahaGame game = gameService.createNewGame(player);
+        KalahaGame game = gameService.createNewGame();
 
         // Create the game Board
         KalahaBoard board = boardService.createKalahaBoard(game);
+        pitService.createPits(board);
 
-        // Create Pits 6x6 layout + 2 stores
-        pitService.createPit(board, PitType.HOUSE, P1_STORE, 0); // store pos 7
-        pitService.createPit(board, PitType.HOUSE, P2_STORE, 0); // store post 14
-
-        // P1 houses
-        for (int i = P1_LOWER_BOUNDARY; i <= P1_UPPER_BOUNDARY; i++) {
-            pitService.createPit(board, PitType.PIT, i, 6);
-        }
-
-        // P2 houses
-        for (int i = P2_LOWER_BOUNDARY; i <= P2_UPPER_BOUNDARY; i++) {
-            pitService.createPit(board, PitType.PIT, i, 6);
-        }
         game.setKalahaBoard(board);
+
         gameService.update(game);
 
         return game;
@@ -66,21 +52,12 @@ public class GameController {
     @PostMapping(value = "{gameId}/move/{position}")
     public KalahaGame doMove(@PathVariable long gameId, @PathVariable int position) {
         log.info("Starting move for Player");
-
-        // Get info
-        KalahaPlayer player = authService.getCurrentUser();
-
-        KalahaGame game = gameService.getGameById(gameId);
-
-        // Do move
-        return kalahaPlayService.move(game.getId(), player.getId(), position);
+        return kalahaPlayService.move(gameId, position);
     }
 
     @PostMapping(value = "/join/{id}")
     public KalahaGame joinGame(@PathVariable Long id) {
         log.info("Joining game");
-
-        // Get logged in player
         KalahaPlayer player = authService.getCurrentUser();
 
         return gameService.joinGame(player, id);

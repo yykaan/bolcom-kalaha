@@ -25,6 +25,7 @@ public class KalahaCaptureRule implements KalahaRule {
         if (position >= kalahaGameHelper.getLowerPositionByPlayerTurn(playerTurn) &&
                 position <= kalahaGameHelper.getUpperPositionByPlayerTurn(playerTurn) &&
                 kalahaBoard.getPits().stream().filter(kalahaGameHelper.getGetPitByPosition(position)).findFirst().get().getStones() == 1) {
+
             Integer oppositePitStones = kalahaBoard.getPits().stream()
                     .filter(kalahaGameHelper.getGetPitByPosition(kalahaGameHelper.getOppositePitIndex(position)))
                     .findFirst().get().getStones();
@@ -58,9 +59,8 @@ public class KalahaCaptureRule implements KalahaRule {
                         });
             }
             log.info("KalahaCaptureRule evaluated");
-            getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
-        switchTurn(kalahaGame);
+        getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         log.info("KalahaCaptureRule not evaluated");
         return kalahaGame;
     }

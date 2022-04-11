@@ -4,7 +4,10 @@ import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.repository.KalahaGameRepository;
+import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaGameService;
+import com.kaan.kalaha.service.KalahaPlayService;
+import com.kaan.kalaha.service.KalahaPlayerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KalahaGameServiceImpl implements KalahaGameService {
     private final KalahaGameRepository kalahaGameRepository;
+    private final AuthService authService;
 
     @Override
     @Transactional
-    public KalahaGame createNewGame(KalahaPlayer player) {
-        log.info("Creating new KalahaGame for player: {}", player.toString());
-        KalahaGame kalahaGame  = new KalahaGame(player, player, GameState.WAITING_FOR_OTHER_PLAYER);
+    public KalahaGame createNewGame() {
+        KalahaPlayer kalahaPlayer = authService.getCurrentUser();
+        log.info("Creating new KalahaGame for player: {}", kalahaPlayer);
+        KalahaGame kalahaGame  = new KalahaGame(kalahaPlayer, kalahaPlayer, GameState.WAITING_FOR_OTHER_PLAYER);
         
         kalahaGameRepository.save(kalahaGame);
         log.info("KalahaGame created: {}", kalahaGame);

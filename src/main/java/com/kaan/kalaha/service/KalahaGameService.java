@@ -7,7 +7,7 @@ import com.kaan.kalaha.enums.GameState;
 import java.util.List;
 
 public interface KalahaGameService {
-    KalahaGame createNewGame(KalahaPlayer player);
+    KalahaGame createNewGame();
 
     KalahaGame update(KalahaGame kalahaGame);
 

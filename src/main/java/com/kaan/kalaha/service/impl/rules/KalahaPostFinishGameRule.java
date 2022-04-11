@@ -6,7 +6,6 @@ import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
-import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaRule;
 import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class KalahaPostFinishGameRule implements KalahaRule {
     private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaGameService kalahaGameService;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
@@ -29,7 +27,7 @@ public class KalahaPostFinishGameRule implements KalahaRule {
             emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(kalahaGame.getKalahaBoard(), turn);
         });
         log.info("Player {} has {} stones", player.getUsername(), kalahaGame.getKalahaBoard().getPits().stream());
-        kalahaGameService.updateGameState(kalahaGame, GameState.FINISHED);
+        kalahaGame.setGameState(GameState.FINISHED);
 
         return kalahaGame;
     }
@@ -42,11 +40,11 @@ public class KalahaPostFinishGameRule implements KalahaRule {
     private void emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(KalahaBoard kalahaBoard, PlayerTurn playerTurn) {
         log.info("Empty Player Pits By Player Turn And Put Stones On Player House");
         KalahaPit playerHouse = kalahaBoard.getPits().stream()
-                .filter(kalahaGameHelper.getGetPlayerPits(playerTurn))
+                .filter(kalahaGameHelper.getPlayerPits(playerTurn))
                 .filter(kalahaGameHelper.getGetPlayerHouse()).toList().get(0);
 
         kalahaBoard.getPits().stream()
-                .filter(kalahaGameHelper.getGetPlayerPits(playerTurn))
+                .filter(kalahaGameHelper.getPlayerPits(playerTurn))
                 .filter(kalahaGameHelper.getGetPlayerOnlyPits())
                 .forEach(kalahaPit -> {
                     int totalStone = 0;
