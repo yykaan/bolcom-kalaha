@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/bolcom-kalaha.iml" filepath="$PROJECT_DIR$/.idea/bolcom-kalaha.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../bolcom-kalaha-fe/bolcom-kalaha-fe.iml" filepath="$PROJECT_DIR$/../bolcom-kalaha-fe/bolcom-kalaha-fe.iml" />
     </modules>
   </component>
 </project>
