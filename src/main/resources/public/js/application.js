@@ -1,8 +1,5 @@
 var kalahApp = angular.module('kalahApp', ['ngRoute', 'gameModule']);
 
-
-
-
 kalahApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/about', {
@@ -16,6 +13,10 @@ kalahApp.config(['$routeProvider', function($routeProvider) {
         templateUrl: 'templates/game.html',
         controller: 'gameController'
     }).
+    when('', {
+        templateUrl: 'templates/login.html',
+        controller: 'authController'
+    })
     // when('/player/panel', {
     //     templateUrl: 'templates/player-panel.html',
     //     controller: 'newGameController'

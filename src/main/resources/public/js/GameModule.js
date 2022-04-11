@@ -69,7 +69,7 @@ gameModule.controller('gamesToJoinController', ['$rootScope', '$scope', '$http',
 
 gameModule.controller('playerGamesController', ['$rootScope', '$scope', '$http', '$location', '$routeParams',
     function (rootScope, scope, http, location, routeParams) {
-        rootScope.reloadPlayerGames  =function () {
+        rootScope.reloadPlayerGames = function () {
 
             scope.playerGames = [];
 

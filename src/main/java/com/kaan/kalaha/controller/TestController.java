@@ -21,18 +21,12 @@ import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 @RequestMapping("/game")
 public class TestController {
 
-    private final KalahaPlayerService playerService;
     private final KalahaBoardService boardService;
     private final KalahaGameService gameService;
     private final KalahaPitService pitService;
     private final AuthService authService;
 
     private final KalahaPlayService kalahaPlayService;
-
-    @RequestMapping("/")
-    public String greet(){
-        return "welcome!";
-    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public KalahaGame createNewGame() {
