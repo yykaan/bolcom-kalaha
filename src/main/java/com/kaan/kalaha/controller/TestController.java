@@ -18,7 +18,7 @@ import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/game")
+@RequestMapping("/api/v1/game")
 public class TestController {
 
     private final KalahaBoardService boardService;
