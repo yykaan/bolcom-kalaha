@@ -4,7 +4,6 @@ import com.kaan.kalaha.security.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                 .and()
-                .frameOptions().deny()
+                .frameOptions().sameOrigin()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -44,7 +43,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/actuator/**",
                         "/api/v1/auth/login",
-                        "/api/v1/auth/register"
+                        "/api/v1/auth/register",
+                        "/h2-console/**"
                 ).permitAll()
                 .antMatchers("/swagger-ui/**", "/v2/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
@@ -59,21 +59,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
-
-        // NOTE: setAllowCredentials(true) is important,
-        // otherwise, the value of the 'Access-Control-Allow-Origin' header in the response
-        // must not be the wildcard '*' when the request's credentials mode is 'include'.
         configuration.setAllowCredentials(true);
-
-        // NOTE: setAllowedHeaders is important!
-        // Without it, OPTIONS preflight request will fail with 403 Invalid CORS request
         configuration.setAllowedHeaders(Arrays.asList(
                 "Authorization",
                 "Accept",
                 "Cache-Control",
                 "Content-Type",
                 "Origin",
-                "ajax", // <-- This is needed for jQuery's ajax request.
+                "ajax",
                 "x-csrf-token",
                 "x-requested-with"
         ));

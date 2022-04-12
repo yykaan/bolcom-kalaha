@@ -6,6 +6,7 @@ import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.PlayerTurn;
+import com.kaan.kalaha.exception.NoStoneToSowException;
 import com.kaan.kalaha.service.KalahaRule;
 import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class KalahaStoneSowingRule implements KalahaRule {
         int stones = startingKalahaPit.getStones();
 
         if (stones == 0) {
-            throw new RuntimeException("No stones to sow");
+            throw new NoStoneToSowException("No stones to sow");
         }
 
         int pitIndex = position + 1;

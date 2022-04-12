@@ -56,10 +56,4 @@ public class KalahaPitServiceImpl implements KalahaPitService {
         }
         return pits;
     }
-
-    @Override
-    public void update(KalahaPit kalahaPit) {
-        log.info("Updating KalahaPit {}", kalahaPit);
-        kalahaPitRepository.save(kalahaPit);
-    }
 }

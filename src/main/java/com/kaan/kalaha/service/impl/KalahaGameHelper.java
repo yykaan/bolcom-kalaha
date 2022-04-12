@@ -5,6 +5,7 @@ import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.enums.PitType;
 import com.kaan.kalaha.enums.PlayerTurn;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Predicate;
@@ -94,7 +95,4 @@ public class KalahaGameHelper {
         this.position = position;
         return getPitByPosition;
     }
-
-
-
 }

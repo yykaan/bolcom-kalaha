@@ -73,9 +73,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
-    @GetMapping("/currentUser")
-    public ResponseEntity<KalahaPlayer> getCurrentUser(){
-        return ResponseEntity.ok(authService.getCurrentUser());
-    }
 }

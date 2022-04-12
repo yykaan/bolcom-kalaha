@@ -29,6 +29,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean isPasswordTrue(LoginRequest loginRequest) {
         KalahaPlayer kalahaPlayer = kalahaPlayerService.findPlayerByUsername(loginRequest.getUsername());
+        if (kalahaPlayer == null || kalahaPlayer.getPassword() == null){
+            return false;
+        }
         return passwordEncoder.matches(loginRequest.getPassword(), kalahaPlayer.getPassword());
     }
 

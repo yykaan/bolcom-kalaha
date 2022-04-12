@@ -22,17 +22,4 @@ public class KalahaBoardServiceImpl implements KalahaBoardService {
         KalahaBoard kalahaBoard = new KalahaBoard(kalahaGame);
         return kalahaBoardRepository.save(kalahaBoard);
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public KalahaBoard getKalahaBoardByGame(KalahaGame kalahaGame) {
-        log.info("Getting kalaha board for game {}", kalahaGame.toString());
-        return kalahaBoardRepository.findByGame(kalahaGame);
-    }
-
-    @Override
-    public void update(KalahaBoard kalahaBoard) {
-        log.info("Updating kalaha board {}", kalahaBoard.toString());
-        kalahaBoardRepository.save(kalahaBoard);
-    }
 }

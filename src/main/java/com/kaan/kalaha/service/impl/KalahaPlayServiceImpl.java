@@ -2,6 +2,7 @@ package com.kaan.kalaha.service.impl;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.exception.GameNotFoundException;
 import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaPlayService;
@@ -25,9 +26,12 @@ public class KalahaPlayServiceImpl implements KalahaPlayService {
 
     @Override
     @Transactional
-    public KalahaGame move(Long gameId, int position) {
+    public KalahaGame move(Long gameId, int position) throws RuntimeException{
         log.info("Finding KalahaGame with id: {}", gameId);
         KalahaGame kalahaGame = kalahaGameService.getGameById(gameId);
+        if (kalahaGame == null){
+            throw new GameNotFoundException("Game not found!");
+        }
 
         final KalahaPlayer kalahaPlayer = kalahaPlayerService.getPlayerById(authService.getCurrentUser().getId());
 

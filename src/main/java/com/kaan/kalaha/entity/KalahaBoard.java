@@ -25,7 +25,7 @@ public class KalahaBoard extends BaseEntity{
     @ToString.Exclude
     @OneToOne
     @JsonBackReference
-    @JoinColumn(name = "game_id", nullable = false)
+    @JoinColumn(name = "game_id")
     private KalahaGame game;
 
     public KalahaBoard(KalahaGame game){

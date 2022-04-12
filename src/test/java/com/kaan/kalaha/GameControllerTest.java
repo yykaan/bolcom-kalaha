@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(value = GameController.class)
-public class GameControllerUnitTest {
+public class GameControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -244,9 +244,7 @@ public class GameControllerUnitTest {
 
         KalahaGame actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), KalahaGame.class);
 
-        KalahaGame expected = game;
-
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(game);
     }
 
     private KalahaPlayer createKalahaPlayer(){

@@ -3,6 +3,8 @@ package com.kaan.kalaha.service.impl;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.GameState;
+import com.kaan.kalaha.exception.GameNotFoundException;
+import com.kaan.kalaha.exception.UserNotLoggedInException;
 import com.kaan.kalaha.repository.KalahaGameRepository;
 import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaGameService;
@@ -27,6 +29,9 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     @Transactional
     public KalahaGame createNewGame() {
         KalahaPlayer kalahaPlayer = authService.getCurrentUser();
+        if (kalahaPlayer == null){
+            throw new UserNotLoggedInException("User not logged in!");
+        }
         log.info("Creating new KalahaGame for player: {}", kalahaPlayer);
         KalahaGame kalahaGame  = new KalahaGame(kalahaPlayer, kalahaPlayer, GameState.WAITING_FOR_OTHER_PLAYER);
         
@@ -38,7 +43,10 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     @Override
     @Transactional
     public KalahaGame update(KalahaGame kalahaGame) {
-        return kalahaGameRepository.save(kalahaGame);
+        if(kalahaGameRepository.existsById(kalahaGame.getId())){
+            return kalahaGameRepository.save(kalahaGame);
+        }
+        throw new GameNotFoundException("Game not found with id:"+kalahaGame.getId());
     }
 
     @Override
@@ -92,8 +100,7 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     public KalahaGame getGameById(Long id) {
         KalahaGame kalahaGame = kalahaGameRepository.findById(id).orElse(null);
         if (kalahaGame == null) {
-            log.error("KalahaGame not found with id: {}", id);
-            return null;
+            throw new GameNotFoundException("Game not found with id"+id);
         }else {
             return kalahaGame;
         }

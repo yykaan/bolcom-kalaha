@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface KalahaPitService {
     List<KalahaPit> createPits(KalahaBoard kalahaBoard);
-
-    void update(KalahaPit kalahaPit);
 }

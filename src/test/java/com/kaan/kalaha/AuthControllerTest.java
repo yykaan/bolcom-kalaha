@@ -1,74 +1,62 @@
 package com.kaan.kalaha;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kaan.kalaha.config.cache.CacheManager;
+import com.kaan.kalaha.controller.AuthController;
 import com.kaan.kalaha.dto.LoginRequest;
 import com.kaan.kalaha.dto.RegisterRequest;
-import com.kaan.kalaha.repository.KalahaPlayerRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.kaan.kalaha.security.filter.JwtFilter;
+import com.kaan.kalaha.security.model.SecurityUser;
+import com.kaan.kalaha.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockServletContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.ServletContext;
 import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { KalahaApplication.class })
-@WebAppConfiguration
-@TestPropertySource(locations = "classpath:application.properties")
-public class AuthControllerIntegrationTest {
+@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
+@WebMvcTest(value = AuthController.class)
+public class AuthControllerTest {
+
+    @MockBean
+    CacheManager cacheManager;
+
+    @MockBean
+    AuthService authService;
+
+    @MockBean
+    JwtFilter jwtFilter;
 
     @Autowired
-    WebApplicationContext webApplicationContext;
+    MockMvc mockMvc;
 
     @Autowired
     ObjectMapper objectMapper;
-
-    @Autowired
-    KalahaPlayerRepository kalahaPlayerRepository;
-
-    private MockMvc mockMvc;
-
-    @BeforeEach
-    public void setup() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    }
-
-    @AfterEach
-    public void cleanupDB(){
-        kalahaPlayerRepository.deleteAll();
-    }
-
-    @Test
-    public void contextLoad_authControllerLoadedAsSpringBean() {
-        ServletContext servletContext = webApplicationContext.getServletContext();
-
-        assertNotNull(servletContext);
-        assertTrue(servletContext instanceof MockServletContext);
-        assertNotNull(webApplicationContext.getBean("authController"));
-    }
 
     @Test
     public void register_success() throws Exception {
         RegisterRequest registerRequest = createRegisterRequest();
 
+        SecurityUser securityUser = new SecurityUser("bolcomtest");
+
+        Mockito.when(authService.register(any(RegisterRequest.class)))
+                .thenReturn(securityUser);
+
         MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -84,8 +72,11 @@ public class AuthControllerIntegrationTest {
     }
 
     @Test
-    public void register_failWithSameEmail() throws Exception {
-        RegisterRequest registerRequest = createRegisterRequest();
+    public void register_failWithEmptyRequest() throws Exception {
+        RegisterRequest registerRequest = new RegisterRequest();
+
+        Mockito.when(authService.register(any(RegisterRequest.class)))
+                .thenReturn(null);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -96,20 +87,7 @@ public class AuthControllerIntegrationTest {
 
         int actual = mvcResult.getResponse().getStatus();
 
-        int expected = HttpStatus.OK.value();
-
-        assertThat(actual).isEqualTo(expected);
-
-        mvcResult = mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .characterEncoding(Charset.defaultCharset())
-                        .content(objectMapper.writeValueAsString(registerRequest)))
-                .andReturn();
-
-        actual = mvcResult.getResponse().getStatus();
-
-        expected = HttpStatus.BAD_REQUEST.value();
+        int expected = HttpStatus.BAD_REQUEST.value();
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -117,6 +95,11 @@ public class AuthControllerIntegrationTest {
     @Test
     public void login_success() throws Exception {
         RegisterRequest registerRequest = createRegisterRequest();
+
+        SecurityUser securityUser = new SecurityUser("bolcomtest");
+
+        Mockito.when(authService.register(any(RegisterRequest.class)))
+                .thenReturn(securityUser);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -133,6 +116,12 @@ public class AuthControllerIntegrationTest {
 
         LoginRequest loginRequest = createLoginRequest();
 
+        Mockito.when(authService.isPasswordTrue(any(LoginRequest.class)))
+                .thenReturn(Boolean.TRUE);
+
+        Mockito.when(authService.loadUserByUserName(anyString()))
+                .thenReturn(createSecurityUser());
+
         MvcResult mvcResultLogin = mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -146,6 +135,10 @@ public class AuthControllerIntegrationTest {
 
         assertThat(actualLogin).isEqualTo(expectedLogin);
         assertThat(mvcResultLogin.getResponse().getContentAsString()).isNotEmpty();
+    }
+
+    private SecurityUser createSecurityUser(){
+        return new SecurityUser("bolcomtest");
     }
 
     private RegisterRequest createRegisterRequest(){
@@ -162,4 +155,5 @@ public class AuthControllerIntegrationTest {
         loginRequest.setPassword("strongpassword");
         return loginRequest;
     }
+
 }
