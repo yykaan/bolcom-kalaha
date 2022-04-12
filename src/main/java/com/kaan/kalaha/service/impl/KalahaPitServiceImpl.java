@@ -25,7 +25,7 @@ public class KalahaPitServiceImpl implements KalahaPitService {
     private final KalahaBoardRepository kalahaBoardRepository;
 
 
-    public KalahaPit createPit(KalahaBoard kalahaBoard, PitType pitType, int position, int nrOfStones) {
+    private KalahaPit createPit(KalahaBoard kalahaBoard, PitType pitType, int position, int nrOfStones) {
         log.info("Creating KalahaPit on KalahaBoard {}", kalahaBoard.getId());
         KalahaPit kalahaPit = new KalahaPit(kalahaBoard, position, nrOfStones, pitType);
 
