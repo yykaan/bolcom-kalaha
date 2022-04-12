@@ -28,9 +28,4 @@ public class InMemoryCacheManager implements CacheManager {
             return Boolean.FALSE;
         }
     }
-
-    @Override
-    public Boolean isExist(String key) {
-        return map.containsKey(key);
-    }
 }

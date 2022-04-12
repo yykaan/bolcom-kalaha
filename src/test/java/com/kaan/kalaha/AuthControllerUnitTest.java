@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -93,22 +94,18 @@ public class AuthControllerUnitTest {
 
     @Test
     public void login_success() throws Exception {
-        LoginRequest loginRequest = createLoginRequest();
+        RegisterRequest registerRequest = createRegisterRequest();
 
-        Mockito.when(authService.isPasswordTrue(any(LoginRequest.class)))
-                .thenReturn(true);
+        SecurityUser securityUser = new SecurityUser("bolcomtest");
 
-        Mockito.when(authService.generateJwtToken(createSecurityUser()))
-                .thenReturn("1");
+        Mockito.when(authService.register(any(RegisterRequest.class)))
+                .thenReturn(securityUser);
 
-        Mockito.when(authService.loadUserByUserName("bolcomtest"))
-                .thenReturn(createSecurityUser());
-
-        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/login")
+        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
-                        .content(objectMapper.writeValueAsString(loginRequest)))
+                        .content(objectMapper.writeValueAsString(registerRequest)))
                 .andReturn();
 
         int actual = mvcResult.getResponse().getStatus();
@@ -116,7 +113,28 @@ public class AuthControllerUnitTest {
         int expected = HttpStatus.OK.value();
 
         assertThat(actual).isEqualTo(expected);
-        assertThat(mvcResult.getResponse().getContentAsString()).isNotEmpty();
+
+        LoginRequest loginRequest = createLoginRequest();
+
+        Mockito.when(authService.isPasswordTrue(any(LoginRequest.class)))
+                .thenReturn(Boolean.TRUE);
+
+        Mockito.when(authService.loadUserByUserName(anyString()))
+                .thenReturn(createSecurityUser());
+
+        MvcResult mvcResultLogin = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andReturn();
+
+        int actualLogin = mvcResultLogin.getResponse().getStatus();
+
+        int expectedLogin = HttpStatus.OK.value();
+
+        assertThat(actualLogin).isEqualTo(expectedLogin);
+        assertThat(mvcResultLogin.getResponse().getContentAsString()).isNotEmpty();
     }
 
     private SecurityUser createSecurityUser(){

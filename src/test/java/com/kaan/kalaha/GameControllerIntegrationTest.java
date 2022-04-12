@@ -3,15 +3,20 @@ package com.kaan.kalaha;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kaan.kalaha.dto.LoginRequest;
 import com.kaan.kalaha.dto.RegisterRequest;
-import com.kaan.kalaha.repository.KalahaPlayerRepository;
-import org.junit.jupiter.api.AfterEach;
+import com.kaan.kalaha.entity.KalahaBoard;
+import com.kaan.kalaha.entity.KalahaGame;
+import com.kaan.kalaha.entity.KalahaPit;
+import com.kaan.kalaha.entity.KalahaPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,50 +28,61 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { KalahaApplication.class })
 @WebAppConfiguration
 @TestPropertySource(locations = "classpath:application.properties")
-public class AuthControllerIntegrationTest {
+public class GameControllerIntegrationTest {
 
     @Autowired
     WebApplicationContext webApplicationContext;
 
+    MockMvc mockMvc;
+
     @Autowired
     ObjectMapper objectMapper;
-
-    @Autowired
-    KalahaPlayerRepository kalahaPlayerRepository;
-
-    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
-    @AfterEach
-    public void cleanupDB(){
-        kalahaPlayerRepository.deleteAll();
-    }
-
     @Test
-    public void contextLoad_authControllerLoadedAsSpringBean() {
+    public void contextLoad_gameControllerLoadedAsSpringBean() {
         ServletContext servletContext = webApplicationContext.getServletContext();
 
         assertNotNull(servletContext);
         assertTrue(servletContext instanceof MockServletContext);
-        assertNotNull(webApplicationContext.getBean("authController"));
+        assertNotNull(webApplicationContext.getBean("gameController"));
     }
 
     @Test
-    public void register_success() throws Exception {
+    @WithMockUser(username = "bolcomtest", password = "strongpassword")
+    public void createGame_success() throws Exception {
+        getToken();
+        MvcResult mvcResult = mockMvc.perform(post("/api/v1/game/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset()))
+                .andReturn();
+
+
+        assertThat(mvcResult.getResponse().getContentAsString()).isNotEmpty();
+        assertThat(objectMapper.readValue(mvcResult.getResponse().getContentAsString(), KalahaGame.class)).isNotNull();
+    }
+
+    private void registerUser() throws Exception {
         RegisterRequest registerRequest = createRegisterRequest();
 
         MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
@@ -83,69 +99,20 @@ public class AuthControllerIntegrationTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    public void register_failWithSameEmail() throws Exception {
-        RegisterRequest registerRequest = createRegisterRequest();
-
-        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .characterEncoding(Charset.defaultCharset())
-                        .content(objectMapper.writeValueAsString(registerRequest)))
-                .andReturn();
-
-        int actual = mvcResult.getResponse().getStatus();
-
-        int expected = HttpStatus.OK.value();
-
-        assertThat(actual).isEqualTo(expected);
-
-        mvcResult = mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .characterEncoding(Charset.defaultCharset())
-                        .content(objectMapper.writeValueAsString(registerRequest)))
-                .andReturn();
-
-        actual = mvcResult.getResponse().getStatus();
-
-        expected = HttpStatus.BAD_REQUEST.value();
-
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    public void login_success() throws Exception {
-        RegisterRequest registerRequest = createRegisterRequest();
-
-        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .characterEncoding(Charset.defaultCharset())
-                        .content(objectMapper.writeValueAsString(registerRequest)))
-                .andReturn();
-
-        int actual = mvcResult.getResponse().getStatus();
-
-        int expected = HttpStatus.OK.value();
-
-        assertThat(actual).isEqualTo(expected);
-
+    private void login() throws Exception {
         LoginRequest loginRequest = createLoginRequest();
 
-        MvcResult mvcResultLogin = mockMvc.perform(post("/api/v1/auth/login")
+        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(objectMapper.writeValueAsString(loginRequest)))
                 .andReturn();
+    }
 
-        int actualLogin = mvcResultLogin.getResponse().getStatus();
-
-        int expectedLogin = HttpStatus.OK.value();
-
-        assertThat(actualLogin).isEqualTo(expectedLogin);
-        assertThat(mvcResultLogin.getResponse().getContentAsString()).isNotEmpty();
+    private void getToken() throws Exception {
+        registerUser();
+        login();
     }
 
     private RegisterRequest createRegisterRequest(){
@@ -162,4 +129,11 @@ public class AuthControllerIntegrationTest {
         loginRequest.setPassword("strongpassword");
         return loginRequest;
     }
+
+
+    private KalahaPlayer createKalahaPlayer(){
+        return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
+    }
+
+
 }

@@ -6,6 +6,4 @@ public interface CacheManager {
     String getValue(String key);
 
     Boolean delete(String key);
-
-    Boolean isExist(String key);
 }
