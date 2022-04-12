@@ -2,6 +2,7 @@ package com.kaan.kalaha;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.exception.GameNotFoundException;
 import com.kaan.kalaha.exception.UserNotLoggedInException;
 import com.kaan.kalaha.repository.KalahaGameRepository;
@@ -13,6 +14,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -69,17 +75,83 @@ public class KalahaGameServiceTest {
 
     @Test
     public void updateGameTest_failThrowsGameNotFoundException(){
-
         assertThrows(GameNotFoundException.class,
                 () -> kalahaGameService.update(new KalahaGame()));
     }
 
     @Test
     public void joinGameTest_success(){
+        KalahaGame kalahaGame = new KalahaGame();
+        kalahaGame.setId(1L);
 
+        when(kalahaGameRepository.findById(anyLong()))
+                .thenReturn(Optional.of(kalahaGame));
+
+        when(kalahaGameRepository.save(any(KalahaGame.class)))
+                .thenReturn(kalahaGame);
+
+        KalahaGame joinedGame = kalahaGameService.joinGame(createKalahaPlayer(), 1L);
+        assertThat(joinedGame.getGameState()).isEqualTo(GameState.IN_PROGRESS);
+    }
+
+    @Test
+    public void joinGameTest_fail_cannotJoinTheGameYouAlreadyIn(){
+        KalahaGame kalahaGame = new KalahaGame();
+        kalahaGame.setId(1L);
+        kalahaGame.setFirstPlayer(createKalahaPlayer());
+
+        when(kalahaGameRepository.findById(anyLong()))
+                .thenReturn(Optional.of(kalahaGame));
+
+        KalahaGame joinedGame = kalahaGameService.joinGame(createKalahaPlayer(), 1L);
+        assertThat(joinedGame).isEqualTo(kalahaGame);
+    }
+
+    @Test
+    public void joinGameTest_fail_throwsGameNotFoundException(){
+        assertThrows(GameNotFoundException.class,
+                () -> kalahaGameService.joinGame(createKalahaPlayer2(), 5L));
+
+    }
+
+    @Test
+    public void updateGameState_success_stateSetToFinished(){
+        KalahaGame kalahaGame = new KalahaGame();
+        kalahaGame.setId(1L);
+        kalahaGame.setGameState(GameState.IN_PROGRESS);
+
+        when(kalahaGameRepository.findById(anyLong()))
+                .thenReturn(Optional.of(kalahaGame));
+
+        when(kalahaGameRepository.save(any(KalahaGame.class)))
+                .thenReturn(kalahaGame);
+
+        KalahaGame updateGameState = kalahaGameService.updateGameState(kalahaGame, GameState.FINISHED);
+        assertThat(updateGameState.getGameState()).isEqualTo(GameState.FINISHED);
+    }
+
+    @Test
+    public void getGamesToJoin_success(){
+        final KalahaPlayer kalahaPlayer = createKalahaPlayer();
+
+        ArrayList<KalahaGame> gamesToJoinList = new ArrayList<>();
+        gamesToJoinList.add(new KalahaGame());
+
+        when(kalahaGameRepository.findByGameState(GameState.WAITING_FOR_OTHER_PLAYER)
+                .stream().filter(
+                        kalahaGame -> kalahaGame.getFirstPlayer() != kalahaPlayer
+                ).collect(Collectors.toList()))
+                .thenReturn(gamesToJoinList);
+        List<KalahaGame> gamesToJoin = kalahaGameService.getGamesToJoin(createKalahaPlayer());
+
+        assertThat(gamesToJoin).hasSize(1);
     }
 
     private KalahaPlayer createKalahaPlayer(){
         return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
+    }
+
+    private KalahaPlayer createKalahaPlayer2(){
+        return new KalahaPlayer("bolcomtest2","b@bol.com","strongpassword");
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,11 +99,11 @@ public class KalahaGameServiceImpl implements KalahaGameService {
     @Override
     @Transactional(readOnly = true)
     public KalahaGame getGameById(Long id) {
-        KalahaGame kalahaGame = kalahaGameRepository.findById(id).orElse(null);
-        if (kalahaGame == null) {
+        Optional<KalahaGame> kalahaGame = kalahaGameRepository.findById(id);
+        if (kalahaGame.isEmpty()) {
             throw new GameNotFoundException("Game not found with id"+id);
         }else {
-            return kalahaGame;
+            return kalahaGame.get();
         }
     }
 
