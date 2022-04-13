@@ -2,9 +2,8 @@ package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -14,8 +13,7 @@ import java.util.List;
 /**
  * KalahaBoard domain class
  */
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "KALAHA_BOARD")
 @NoArgsConstructor

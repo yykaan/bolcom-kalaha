@@ -2,9 +2,8 @@ package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kaan.kalaha.enums.PitType;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,9 +11,7 @@ import javax.persistence.*;
 /**
  * KalahaPit domain class
  */
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
 @Table(name = "KALAHA_PIT")
 @NoArgsConstructor

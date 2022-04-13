@@ -39,7 +39,7 @@ public class KalahaPlayServiceTest {
     KalahaPlayServiceImpl kalahaPlayService;
 
     @Test
-    public void test(){
+    public void moveTest(){
         KalahaGame game = createGame();
 
         when(kalahaGameService.getGameById(game.getId()))

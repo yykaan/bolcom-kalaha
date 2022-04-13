@@ -1,10 +1,8 @@
 package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -12,9 +10,7 @@ import javax.persistence.*;
  * KalahaPlayer domain class
  */
 
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
 @Table(name = "KALAHA_PLAYER")
 @NoArgsConstructor

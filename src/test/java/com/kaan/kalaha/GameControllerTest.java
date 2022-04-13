@@ -224,6 +224,7 @@ public class GameControllerTest {
     @Test
     public void createGame_success() throws Exception {
         KalahaGame game = new KalahaGame();
+        game.setId(1L);
         Mockito.when(gameService.createNewGame())
                 .thenReturn(game);
 
@@ -245,6 +246,6 @@ public class GameControllerTest {
 
         KalahaGame actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), KalahaGame.class);
 
-        assertThat(actual).isEqualTo(game);
+        assertThat(actual.getId()).isEqualTo(game.getId());
     }
 }
