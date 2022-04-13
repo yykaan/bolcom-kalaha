@@ -1,28 +1,29 @@
 package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * KalahaPlayer domain class
  */
+
 @Getter
+@Setter
 @ToString
-@Builder
 @Entity
 @Table(name = "KALAHA_PLAYER")
-@SequenceGenerator(name = "kalaha_player_sequence", sequenceName = "kalaha_player_sequence", allocationSize = 1)
 @NoArgsConstructor
-public class KalahaPlayer extends BaseEntity{
+public class KalahaPlayer{
 
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @Column(name = "USER_NAME", unique = true, nullable = false)
     private String username;
 

@@ -50,11 +50,10 @@ public class AuthServiceImpl implements AuthService {
         log.info("Registering user: {}", registerRequest.getUsername());
         if (kalahaPlayerService.findPlayerByUsername(registerRequest.getUsername()) == null) {
             log.info("Registering new user: {}", registerRequest.getUsername());
-            KalahaPlayer kalahaPlayer = KalahaPlayer.builder()
-                    .email(registerRequest.getEmail())
-                    .password(passwordEncoder.encode(registerRequest.getPassword()))
-                    .username(registerRequest.getUsername())
-                    .build();
+            KalahaPlayer kalahaPlayer = new KalahaPlayer();
+            kalahaPlayer.setEmail(registerRequest.getEmail());
+            kalahaPlayer.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            kalahaPlayer.setUsername(registerRequest.getUsername());
             log.info("Saving new user: {}", kalahaPlayer);
             kalahaPlayerService.save(kalahaPlayer);
             log.info("User saved: {}", kalahaPlayer);

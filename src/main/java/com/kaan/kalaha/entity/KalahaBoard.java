@@ -18,10 +18,13 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "KALAHA_BOARD")
-@SequenceGenerator(name = "kalaha_board_sequence", sequenceName = "kalaha_board_sequence", allocationSize = 1)
 @NoArgsConstructor
-public class KalahaBoard extends BaseEntity{
+public class KalahaBoard{
 
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @JsonManagedReference
     @OneToMany(mappedBy = "kalahaBoard")
     private List<KalahaPit> pits = new ArrayList<>();

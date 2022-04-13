@@ -17,10 +17,13 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "KALAHA_PIT")
-@SequenceGenerator(name = "kalaha_pit_sequence", sequenceName = "kalaha_pit_sequence", allocationSize = 1)
 @NoArgsConstructor
-public class KalahaPit extends BaseEntity {
+public class KalahaPit{
 
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @Column(name = "STONES")
     private Integer stones;
 
