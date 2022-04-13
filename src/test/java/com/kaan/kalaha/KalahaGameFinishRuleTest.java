@@ -5,9 +5,8 @@ import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.impl.KalahaGameHelper;
-import com.kaan.kalaha.service.impl.rules.KalahaGameFinishRule;
-import com.kaan.kalaha.service.impl.rules.KalahaIsLastPitOnPlayersHouseRule;
-import com.kaan.kalaha.service.impl.rules.KalahaPostFinishGameRule;
+import com.kaan.kalaha.gameRules.KalahaGameFinishRule;
+import com.kaan.kalaha.gameRules.KalahaPostFinishGameRule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static com.kaan.kalaha.TestUtils.addStoneToIndex;
 import static com.kaan.kalaha.TestUtils.emptyAllPits;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class KalahaGameFinishRuleTest {

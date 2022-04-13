@@ -7,7 +7,7 @@ import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaPlayService;
 import com.kaan.kalaha.service.KalahaPlayerService;
-import com.kaan.kalaha.service.impl.rules.KalahaGameStartRule;
+import com.kaan.kalaha.gameRules.KalahaGameStartRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

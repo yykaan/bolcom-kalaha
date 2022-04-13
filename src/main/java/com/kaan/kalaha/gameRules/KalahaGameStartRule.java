@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl.rules;
+package com.kaan.kalaha.gameRules;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;

@@ -6,7 +6,7 @@ import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaGameService;
 import com.kaan.kalaha.service.KalahaPlayerService;
 import com.kaan.kalaha.service.impl.KalahaPlayServiceImpl;
-import com.kaan.kalaha.service.impl.rules.KalahaGameStartRule;
+import com.kaan.kalaha.gameRules.KalahaGameStartRule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

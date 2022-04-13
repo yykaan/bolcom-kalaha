@@ -1,4 +1,4 @@
-package com.kaan.kalaha.service.impl.rules;
+package com.kaan.kalaha.gameRules;
 
 import com.google.common.collect.Iterables;
 import com.kaan.kalaha.entity.KalahaBoard;

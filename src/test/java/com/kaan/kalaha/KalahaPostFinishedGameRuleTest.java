@@ -5,12 +5,10 @@ import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.impl.KalahaGameHelper;
-import com.kaan.kalaha.service.impl.rules.KalahaGameFinishRule;
-import com.kaan.kalaha.service.impl.rules.KalahaPostFinishGameRule;
+import com.kaan.kalaha.gameRules.KalahaPostFinishGameRule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
