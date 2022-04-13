@@ -54,6 +54,10 @@ public class GameController {
                     @ApiResponse(responseCode = "200", description = "Game found",
                             content = @Content(schema = @Schema(implementation = KalahaGame.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
             })
     @GetMapping("/{gameId}")
@@ -74,6 +78,10 @@ public class GameController {
                     @ApiResponse(responseCode = "200", description = "Game created successfully",
                             content = @Content(schema = @Schema(implementation = KalahaGame.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
             })
     @PostMapping(value = "/create")
@@ -109,6 +117,10 @@ public class GameController {
                     @ApiResponse(responseCode = "200", description = "Sow successful",
                             content = @Content(schema = @Schema(implementation = KalahaGame.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
             })
     @PostMapping(value = "{gameId}/move/{position}")
@@ -129,6 +141,10 @@ public class GameController {
                     @ApiResponse(responseCode = "200", description = "Join successful",
                             content = @Content(schema = @Schema(implementation = KalahaGame.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
             })
     @PostMapping(value = "/join/{id}")
@@ -150,6 +166,10 @@ public class GameController {
                     @ApiResponse(responseCode = "200", description = "Join successful",
                             content = @Content(schema = @Schema(implementation = KalahaGame.class))),
                     @ApiResponse(responseCode = "400", description = "Bad request",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "403", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ResponseEntity.class)))
             })
     @GetMapping(value = "/list")
