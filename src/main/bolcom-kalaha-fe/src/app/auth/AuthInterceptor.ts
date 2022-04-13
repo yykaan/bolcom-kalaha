@@ -23,14 +23,9 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         return next.handle(authReq).pipe(catchError(error => {
             if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/login') && error.status === 401) {
+              this.tokenStorageService.signOut()
               this.router.navigateByUrl('/login');
-            }else if (error.status === 503){
-              this.router.navigateByUrl('/login');
-            }else if(error.status === 500){
-                if (JSON.parse(error.error).error.code === 401)
-                    this.router.navigateByUrl('/login');
             }
-
             return throwError(error);
         }))as Observable<HttpEvent<any>>;
     }

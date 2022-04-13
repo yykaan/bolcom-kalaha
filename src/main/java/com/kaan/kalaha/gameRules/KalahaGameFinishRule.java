@@ -27,8 +27,8 @@ public class KalahaGameFinishRule implements KalahaRule {
         if (kalahaGame.getKalahaBoard().getPits().stream()
                 .filter(kalahaGameHelper.getPlayerPits(PlayerTurn.P1))
                 .filter(kalahaGameHelper.getGetPlayerOnlyPits())
-                .noneMatch(kalahaGameHelper.getIsPitHasStone()) ||
-
+                .noneMatch(kalahaGameHelper.getIsPitHasStone())
+                ||
                 kalahaGame.getKalahaBoard().getPits().stream()
                         .filter(kalahaGameHelper.getPlayerPits(PlayerTurn.P2))
                         .filter(kalahaGameHelper.getGetPlayerOnlyPits())
