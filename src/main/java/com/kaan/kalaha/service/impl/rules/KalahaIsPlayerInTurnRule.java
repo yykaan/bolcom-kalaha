@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Rule to check if the player is in turn
+ * calls the next rule {@link KalahaIsGameInProgressRule}
+ * uses {@link KalahaGameHelper} to evaluate certain common conditions
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

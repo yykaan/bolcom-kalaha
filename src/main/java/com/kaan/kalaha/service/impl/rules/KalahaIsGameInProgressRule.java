@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Rule to check if game is in progress
+ * calls the next rule {@link KalahaValidateStartingPositionAndStoneCountByTurnRule}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

@@ -8,6 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * First rule of the game
+ * Evaluates if the game can start
+ * calls the next rule {@link KalahaIsPlayerInTurnRule}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
