@@ -1,14 +1,11 @@
 package com.kaan.kalaha;
 
-import com.google.common.collect.Iterables;
 import com.kaan.kalaha.constant.KalahaGameConstants;
 import com.kaan.kalaha.entity.KalahaGame;
-import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.enums.PlayerTurn;
 import com.kaan.kalaha.service.impl.KalahaGameHelper;
-import com.kaan.kalaha.service.impl.rules.KalahaCaptureRule;
-import com.kaan.kalaha.service.impl.rules.KalahaGameFinishRule;
-import com.kaan.kalaha.service.impl.rules.KalahaIsLastPitOnPlayersHouseRule;
+import com.kaan.kalaha.gameRules.KalahaGameFinishRule;
+import com.kaan.kalaha.gameRules.KalahaIsLastPitOnPlayersHouseRule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,10 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.stream.Collectors;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)

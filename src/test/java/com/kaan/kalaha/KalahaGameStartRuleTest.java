@@ -1,9 +1,8 @@
 package com.kaan.kalaha;
 
 import com.kaan.kalaha.entity.KalahaGame;
-import com.kaan.kalaha.enums.PlayerTurn;
-import com.kaan.kalaha.service.impl.rules.KalahaGameStartRule;
-import com.kaan.kalaha.service.impl.rules.KalahaIsPlayerInTurnRule;
+import com.kaan.kalaha.gameRules.KalahaGameStartRule;
+import com.kaan.kalaha.gameRules.KalahaIsPlayerInTurnRule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
