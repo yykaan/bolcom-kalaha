@@ -48,7 +48,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      *            <p> /api/v1/auth/register</p>
      *            <p> /h2-console/**</p>
      *            <p> /swagger-ui.html</p>
-     *            <p> /v2/api-docs</p>
+     *            <p> /v3/api-docs</p>
      *            <p> /swagger-resources/**</p>
      *            <p> /swagger-ui.html</p>
      * other requests are filtered by {@link JwtFilter}
@@ -78,7 +78,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/auth/register",
                         "/h2-console/**"
                 ).permitAll()
-                .antMatchers("/swagger-ui/**", "/v2/**", "/swagger-resources/**", "/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/**", "/v3/**", "/swagger-resources/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().disable()
