@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.kaan.kalaha.TestUtils.createKalahaPlayer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -61,9 +62,5 @@ public class KalahaPlayerServiceTest {
         KalahaPlayer playerById = kalahaPlayerService.getPlayerById(1L);
         assertThat(playerById).isNull();
 
-    }
-
-    private KalahaPlayer createKalahaPlayer(){
-        return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
     }
 }

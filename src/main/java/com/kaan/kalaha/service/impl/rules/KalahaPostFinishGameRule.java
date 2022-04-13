@@ -26,7 +26,6 @@ public class KalahaPostFinishGameRule implements KalahaRule {
         Arrays.stream(PlayerTurn.values()).forEach(turn -> {
             emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(kalahaGame.getKalahaBoard(), turn);
         });
-        log.info("Player {} has {} stones", player.getUsername(), kalahaGame.getKalahaBoard().getPits().stream());
         kalahaGame.setGameState(GameState.FINISHED);
 
         return kalahaGame;
@@ -40,7 +39,6 @@ public class KalahaPostFinishGameRule implements KalahaRule {
     private void emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(KalahaBoard kalahaBoard, PlayerTurn playerTurn) {
         log.info("Empty Player Pits By Player Turn And Put Stones On Player House");
         KalahaPit playerHouse = kalahaBoard.getPits().stream()
-                .filter(kalahaGameHelper.getPlayerPits(playerTurn))
                 .filter(kalahaGameHelper.getGetPlayerHouse()).toList().get(0);
 
         kalahaBoard.getPits().stream()

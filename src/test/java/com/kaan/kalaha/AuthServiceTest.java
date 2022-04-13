@@ -1,12 +1,9 @@
 package com.kaan.kalaha;
 
-import com.kaan.kalaha.dto.LoginRequest;
-import com.kaan.kalaha.dto.RegisterRequest;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.service.UserDetailsServiceImpl;
 import com.kaan.kalaha.security.util.JwtUtil;
-import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.KalahaPlayerService;
 import com.kaan.kalaha.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -21,6 +18,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.kaan.kalaha.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -145,28 +143,5 @@ public class AuthServiceTest {
 
         KalahaPlayer currentUser = authService.getCurrentUser();
         assertThat(currentUser).isNull();
-    }
-
-    private SecurityUser createSecurityUser(){
-        return new SecurityUser("bolcomtest");
-    }
-
-    private RegisterRequest createRegisterRequest(){
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("a@bol.com");
-        registerRequest.setUsername("bolcomtest");
-        registerRequest.setPassword("strongpassword");
-        return registerRequest;
-    }
-
-    private LoginRequest createLoginRequest(){
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("bolcomtest");
-        loginRequest.setPassword("strongpassword");
-        return loginRequest;
-    }
-
-    private KalahaPlayer createKalahaPlayer(){
-        return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
     }
 }

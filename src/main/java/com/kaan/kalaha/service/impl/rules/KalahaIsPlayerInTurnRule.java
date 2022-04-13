@@ -23,9 +23,11 @@ public class KalahaIsPlayerInTurnRule implements KalahaRule {
         if (isPlayerTurn(kalahaGame, player)) {
             playerTurn = determinePlayerTurn(kalahaGame);
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
+            return kalahaGame;
+        }else{
+            log.info("Player {} is in wrong turn!", player);
+            return kalahaGame;
         }
-        log.info("Player {} is in wrong turn!", player);
-        return kalahaGame;
     }
 
     @Override

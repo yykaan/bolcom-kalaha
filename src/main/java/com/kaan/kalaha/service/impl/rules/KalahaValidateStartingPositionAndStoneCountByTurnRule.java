@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class KalahaValidateStartingPositionAndStoneCountByTurnRule implements KalahaRule {
 
     private final KalahaGameHelper kalahaGameHelper;
-    private final KalahaSowingStoneFromStoreRule kalahaSowingStoneFromStoreRule;
+    private final KalahaIsStartingPitStoreRule kalahaIsStartingPitStoreRule;
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
@@ -27,7 +27,7 @@ public class KalahaValidateStartingPositionAndStoneCountByTurnRule implements Ka
                 .getStones();
         log.info("Stones: {}", stones);
 
-        if (kalahaGameHelper.validateStartingPitPositionByPlayerTurn(playerTurn, position, stones)) {
+        if (kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(playerTurn, position, stones)) {
             log.info("Starting pit position is valid");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
@@ -37,6 +37,6 @@ public class KalahaValidateStartingPositionAndStoneCountByTurnRule implements Ka
 
     @Override
     public KalahaRule getNextRule() {
-        return kalahaSowingStoneFromStoreRule;
+        return kalahaIsStartingPitStoreRule;
     }
 }

@@ -20,42 +20,42 @@ public class KalahaGameHelperTest {
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p1ValidPosition(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P1, 3, 1);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P1, 3, 1);
 
         assertThat(valid).isTrue();
     }
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p1NotValidPosition(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P1, 8, 1);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P1, 8, 1);
 
         assertThat(valid).isFalse();
     }
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p1ValidPosition_invalidStoneCount(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P1, 3, 0);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P1, 3, 0);
 
         assertThat(valid).isFalse();
     }
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p2ValidPosition(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P2, 8, 1);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P2, 8, 1);
 
         assertThat(valid).isTrue();
     }
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p2NotValidPosition(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P2, 1, 1);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P2, 1, 1);
 
         assertThat(valid).isFalse();
     }
 
     @Test
     public void validateStartingPitPositionByPlayerTurn_p2ValidPosition_invalidStoneCount(){
-        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurn(PlayerTurn.P2, 11, 0);
+        Boolean valid = kalahaGameHelper.validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn.P2, 11, 0);
 
         assertThat(valid).isFalse();
     }

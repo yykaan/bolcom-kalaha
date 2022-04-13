@@ -13,8 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static com.kaan.kalaha.TestUtils.createBoard;
 import static com.kaan.kalaha.constant.KalahaGameConstants.TOTAL_PIT_COUNT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class KalahaPitServiceTest {
@@ -30,7 +33,16 @@ public class KalahaPitServiceTest {
 
     @Test
     public void createPitsForBoard_success(){
-        List<KalahaPit> pits = kalahaPitService.createPits(new KalahaBoard());
+
+        KalahaBoard kalahaBoard = createBoard();
+
+        when(kalahaPitRepository.save(any(KalahaPit.class)))
+                .thenReturn(new KalahaPit());
+
+        when(kalahaBoardRepository.save(any(KalahaBoard.class)))
+                .thenReturn(kalahaBoard);
+
+        List<KalahaPit> pits = kalahaPitService.createPits(kalahaBoard);
         assertThat(pits).hasSize(TOTAL_PIT_COUNT);
     }
 }

@@ -57,11 +57,11 @@ public class KalahaCaptureRule implements KalahaRule {
                         },() -> {
                             log.info("Player house is empty");
                         });
+                return kalahaGame;
             }
-            log.info("KalahaCaptureRule evaluated");
         }
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
-        log.info("KalahaCaptureRule not evaluated");
+        log.info("KalahaCaptureRule evaluating completed");
         return kalahaGame;
     }
 

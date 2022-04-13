@@ -4,8 +4,6 @@ import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.enums.PitType;
 import com.kaan.kalaha.enums.PlayerTurn;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Predicate;
@@ -13,9 +11,7 @@ import java.util.function.Predicate;
 import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 
 @Service
-@Slf4j
 public class KalahaGameHelper {
-
     private int lowerBound;
     private int upperBound;
     private int position;
@@ -25,7 +21,7 @@ public class KalahaGameHelper {
     private final Predicate<KalahaPit> isPitHasStone = kalahaPit -> kalahaPit.getStones() > 0;
     private final Predicate<KalahaPit> getPitByPosition = kalahaPit -> kalahaPit.getPosition() == position;
 
-    public Boolean validateStartingPitPositionByPlayerTurn(PlayerTurn playerTurn, int position, int stones) {
+    public Boolean validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn playerTurn, int position, int stones) {
         return switch (playerTurn) {
             case P1 -> position >= P1_LOWER_BOUNDARY && position <= P1_UPPER_BOUNDARY && stones > 0;
             case P2 -> position >= P2_LOWER_BOUNDARY && position <= P2_UPPER_BOUNDARY && stones > 0;

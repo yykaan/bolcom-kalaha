@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.nio.charset.Charset;
 
+import static com.kaan.kalaha.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -135,25 +136,6 @@ public class AuthControllerTest {
 
         assertThat(actualLogin).isEqualTo(expectedLogin);
         assertThat(mvcResultLogin.getResponse().getContentAsString()).isNotEmpty();
-    }
-
-    private SecurityUser createSecurityUser(){
-        return new SecurityUser("bolcomtest");
-    }
-
-    private RegisterRequest createRegisterRequest(){
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setEmail("a@bol.com");
-        registerRequest.setUsername("bolcomtest");
-        registerRequest.setPassword("strongpassword");
-        return registerRequest;
-    }
-
-    private LoginRequest createLoginRequest(){
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername("bolcomtest");
-        loginRequest.setPassword("strongpassword");
-        return loginRequest;
     }
 
 }

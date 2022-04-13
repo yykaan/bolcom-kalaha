@@ -10,7 +10,6 @@ import com.kaan.kalaha.service.AuthService;
 import com.kaan.kalaha.service.impl.KalahaGameServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.kaan.kalaha.TestUtils.createKalahaPlayer;
+import static com.kaan.kalaha.TestUtils.createKalahaPlayer2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -145,13 +146,5 @@ public class KalahaGameServiceTest {
         List<KalahaGame> gamesToJoin = kalahaGameService.getGamesToJoin(createKalahaPlayer());
 
         assertThat(gamesToJoin).hasSize(1);
-    }
-
-    private KalahaPlayer createKalahaPlayer(){
-        return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
-    }
-
-    private KalahaPlayer createKalahaPlayer2(){
-        return new KalahaPlayer("bolcomtest2","b@bol.com","strongpassword");
     }
 }

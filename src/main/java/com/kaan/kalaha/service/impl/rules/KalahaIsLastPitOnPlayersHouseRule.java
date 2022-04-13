@@ -18,12 +18,12 @@ public class KalahaIsLastPitOnPlayersHouseRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("evaluate: {}", kalahaGame);
+        log.info("Evaluating rule: {}", this.getClass().getSimpleName());
 
         if (position == kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
             return kalahaGame;
         }
-        log.info("evaluate: {}", kalahaGame);
+        log.info("Evaluated rule: {}", this.getClass().getSimpleName());
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;
     }

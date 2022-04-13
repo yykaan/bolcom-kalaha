@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.kaan.kalaha.TestUtils.createKalahaPlayer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -245,9 +246,5 @@ public class GameControllerTest {
         KalahaGame actual = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), KalahaGame.class);
 
         assertThat(actual).isEqualTo(game);
-    }
-
-    private KalahaPlayer createKalahaPlayer(){
-        return new KalahaPlayer("bolcomtest","a@bol.com","strongpassword");
     }
 }

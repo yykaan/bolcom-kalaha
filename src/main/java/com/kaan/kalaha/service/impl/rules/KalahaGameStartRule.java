@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KalahaGameStartRule implements KalahaRule {
     private final KalahaIsPlayerInTurnRule kalahaIsPlayerInTurnRule;
-
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("Game start rule is evaluated");
