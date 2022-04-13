@@ -47,7 +47,7 @@ Frontend
   - run `ng serve`
   - Ta da! frontend will be accessible at http://localhost:4200
  
-# Screen Shots (Sorry for the high quality UI/UX:facepalm:)
+# Screen Shots (Not Sorry for top level UI/UX:facepalm:)
 
 Login
 ![Screen Shot 2022-04-13 at 22 12 18](https://user-images.githubusercontent.com/16269104/163253176-2433da74-f76b-452b-bb0c-de4201d43d42.png)
