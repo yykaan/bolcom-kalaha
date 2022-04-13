@@ -11,7 +11,7 @@ Kalah (Kalaha or Mancala) Board Game. For more information visit https://en.wiki
 - :fairy: Spring boot is used for fast development since it takes care of everything like automating magical bean carrier code fairies
 - :hourglass_flowing_sand:Hibernate and H2 works like charm and they are the key of fast development since this is a case study, time is money!
 - :moneybag:Lombok saved me a lot of time for not letting me type boilerplate code at compile time, again time is money!
-- :gear:Everything needs to work together! Junit keeps them organized.
+- :gear:Everything needs to work! Junit put them in line.
 - :bookmark_tabs:Documenting your code with Javadoc is important but how about Rest api documentation ? OpenAPI is the go!
 
 
