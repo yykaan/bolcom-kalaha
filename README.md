@@ -40,7 +40,7 @@ Frontend
 - Spring boot will take care of database creation but do not forget since H2 is used, everything will be deleted each application cycle!
   - Backend will be running at http://localhost:8080
   - H2 console is accessible at http://localhost:8080/h2-console. (no password, schh:shushing_face:)
-  - REST Documentation will be accessible here http://localhost:8080/swagger-ui/index.html
+  - REST Documentation is accessible at http://localhost:8080/swagger-ui/index.html
 - To run frontend you must access your terminal and go to /src/main/bolcom-kalaha-fe directory
   - run `npm-install`
   - Wait for 8 hours, then come back..
