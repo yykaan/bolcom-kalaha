@@ -132,13 +132,6 @@
                 </configuration>
             </plugin>
         </plugins>
-		<resources>
-			<resource>
-				<excludes>
-					<exclude>src/main/resources/bolcom-kalaha-fe/**</exclude>
-				</excludes>
-			</resource>
-		</resources>
 	</build>
 
 </project>

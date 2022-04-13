@@ -1,8 +1,10 @@
 package com.kaan.kalaha.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import org.hibernate.annotations.Where;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +12,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Getter
-@Setter
 @ToString
 @Builder
 @Entity

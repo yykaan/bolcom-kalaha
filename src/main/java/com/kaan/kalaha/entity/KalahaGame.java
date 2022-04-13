@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "KALAHA_GAME")
 @SequenceGenerator(name = "kalaha_game_sequence", sequenceName = "kalaha_game_sequence", allocationSize = 1)
 @NoArgsConstructor
-@AllArgsConstructor
 public class KalahaGame extends BaseEntity{
 
     @ManyToOne
