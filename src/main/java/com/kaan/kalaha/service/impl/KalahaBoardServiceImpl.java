@@ -19,7 +19,7 @@ public class KalahaBoardServiceImpl implements KalahaBoardService {
     @Transactional
     public KalahaBoard createKalahaBoard(KalahaGame kalahaGame) {
         log.info("Creating kalaha board for game {}", kalahaGame.toString());
-        KalahaBoard kalahaBoard = new KalahaBoard(kalahaGame);
+        KalahaBoard kalahaBoard = new KalahaBoard();
         return kalahaBoardRepository.save(kalahaBoard);
     }
 }

@@ -1,10 +1,9 @@
 package com.kaan.kalaha.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,16 +23,7 @@ public class KalahaBoard{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @JsonManagedReference
+    @HashCodeExclude
     @OneToMany(mappedBy = "kalahaBoard")
     private List<KalahaPit> pits = new ArrayList<>();
-
-    @ToString.Exclude
-    @OneToOne
-    @JsonBackReference
-    @JoinColumn(name = "game_id")
-    private KalahaGame game;
-
-    public KalahaBoard(KalahaGame game){
-        this.game = game;
-    }
 }

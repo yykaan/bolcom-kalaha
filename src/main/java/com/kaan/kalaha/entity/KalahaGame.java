@@ -1,10 +1,10 @@
 package com.kaan.kalaha.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kaan.kalaha.enums.GameState;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 import javax.persistence.*;
 
@@ -34,8 +34,8 @@ public class KalahaGame{
     private KalahaPlayer playerTurn;
 
     @ToString.Exclude
+    @HashCodeExclude
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
     @JoinColumn(name = "board_id")
     private KalahaBoard kalahaBoard;
 
