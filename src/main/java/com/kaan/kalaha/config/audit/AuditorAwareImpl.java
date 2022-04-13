@@ -7,9 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
-
 public class AuditorAwareImpl implements AuditorAware<String> {
 
+    /**
+     * This implementation returns the principal attribute of the
+     * {@link Authentication} object stored in the {@link SecurityContextHolder}.
+     * @return the current logged-in user, or "system" if there is none
+     */
     @NotNull
     @Override
     public Optional<String> getCurrentAuditor() {

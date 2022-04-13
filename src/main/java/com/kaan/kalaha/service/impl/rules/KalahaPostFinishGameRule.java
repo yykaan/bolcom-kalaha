@@ -14,6 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+/**
+ * Rule to finish game, collect stones from pits and stores in player's store.
+ * sets game state to FINISHED.
+ * uses helper class {@link KalahaGameHelper}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

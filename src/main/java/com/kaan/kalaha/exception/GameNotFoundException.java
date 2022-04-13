@@ -1,5 +1,9 @@
 package com.kaan.kalaha.exception;
 
+/**
+ * GameNotFoundException
+ * throws when game not found
+ */
 public class GameNotFoundException extends RuntimeException{
     private final String error;
     public GameNotFoundException(String error) {

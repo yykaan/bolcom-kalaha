@@ -1,5 +1,11 @@
 package com.kaan.kalaha.constant;
 
+/**
+ * The Class KalahaGameConstants
+ * contains the constants used in the game like
+ * the number of pits, the number of stones in each pit
+ * boundary of the board
+ */
 public final class KalahaGameConstants {
     public static final int TOTAL_PIT_COUNT = 14;
     public static final int P1_LOWER_BOUNDARY = 1;

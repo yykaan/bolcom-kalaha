@@ -11,13 +11,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Class for User details
+ * Class for User details that is used for authentication
+ * uses {@link KalahaPlayerRepository} to get user details
  */
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final KalahaPlayerRepository playerRepository;
 
+    /**
+     * @param username username of the user
+     * @return {@link SecurityUser} with given username if exists
+     * @throws UsernameNotFoundException if user is not found
+     */
     @Override
     @Transactional(readOnly = true)
     public SecurityUser loadUserByUsername(String username) throws UsernameNotFoundException {

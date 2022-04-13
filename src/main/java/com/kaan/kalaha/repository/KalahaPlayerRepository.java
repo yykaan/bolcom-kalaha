@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository for @{@link KalahaPlayer}
+ * Repository for {@link KalahaPlayer}
  */
 @Repository
 public interface KalahaPlayerRepository extends CrudRepository<KalahaPlayer, Long> {
@@ -13,7 +13,7 @@ public interface KalahaPlayerRepository extends CrudRepository<KalahaPlayer, Lon
      * Find Player by username
      *
      * @param username of the player
-     * @return @{@link KalahaPlayer} by name
+     * @return {@link KalahaPlayer} by name
      */
     KalahaPlayer findOneByUsername(String username);
 }

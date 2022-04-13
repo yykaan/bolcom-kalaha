@@ -1,8 +1,6 @@
 package com.kaan.kalaha.security.filter;
 
 import com.kaan.kalaha.config.cache.CacheManager;
-import com.kaan.kalaha.entity.KalahaPlayer;
-import com.kaan.kalaha.exception.JWTExceptionResponse;
 import com.kaan.kalaha.exception.JWTTokenException;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.util.JwtUtil;
@@ -22,6 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Filters every request only once to check if the request is authorized by JWT token
+ * If the request is authorized, the user details are set to the SecurityContextHolder
+ * If the request is not authorized, {@link JWTTokenException} is thrown
+ *
+ * Uses {@link JwtUtil} to validate the JWT token
+ * Uses {@link CacheManager} to get the user details from the cache
+ */
 public class JwtFilter extends OncePerRequestFilter {
 
     private static final String BEARER_ = "Bearer ";
@@ -32,6 +38,14 @@ public class JwtFilter extends OncePerRequestFilter {
         this.cacheManager = cacheManager;
     }
 
+    /**
+     * Checks if request is authorized by JWT token
+     * @param request the request
+     * @param response the response
+     * @param filterChain the filter chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -63,10 +77,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     });
             filterChain.doFilter(request, response);
         } catch (JWTTokenException exception) {
-            JWTExceptionResponse responseDto = new JWTExceptionResponse();
-            responseDto.setStatus(HttpStatus.UNAUTHORIZED.value());
-            responseDto.setMessage("An error occurred");
-            responseDto.setTokenAvailable(false);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         }

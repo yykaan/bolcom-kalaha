@@ -1,10 +1,14 @@
 package com.kaan.kalaha.exception;
 
-import lombok.Data;
 
-@Data
+/**
+ * JWT Token Exception
+ * throws when token is not valid
+ */
 public class JWTTokenException extends RuntimeException {
-    public JWTTokenException(String message) {
-        super(message);
+    private final String error;
+
+    public JWTTokenException(String error) {
+        this.error = error;
     }
 }

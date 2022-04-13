@@ -4,9 +4,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Cache manager {@link CacheManager} implementation for in-memory cache.
+ * uses {@link ConcurrentHashMap} as cache.
+ */
 @Service
 public class InMemoryCacheManager implements CacheManager {
 
+    /**
+     * Cache map for storing cache entries.
+     * used by {@link com.kaan.kalaha.service.AuthService}
+     */
     ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
     @Override

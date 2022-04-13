@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Rule to check if the player is starting from the pit store or house
+ * calls the next rule {@link KalahaStoneSowingRule}
+ * uses the helper class {@link KalahaGameHelper}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

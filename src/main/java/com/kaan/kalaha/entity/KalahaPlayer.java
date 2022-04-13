@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * KalahaPlayer domain class
+ */
 @Getter
 @ToString
 @Builder

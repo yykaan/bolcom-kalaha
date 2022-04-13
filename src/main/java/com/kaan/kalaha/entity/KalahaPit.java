@@ -9,6 +9,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+/**
+ * KalahaPit domain class
+ */
 @Getter
 @Setter
 @ToString

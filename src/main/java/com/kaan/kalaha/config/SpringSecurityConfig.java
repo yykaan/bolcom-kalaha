@@ -17,6 +17,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Configures Spring Security with given configuration.
+ * uses {@link JwtFilter} to filter requests whether they are authorized or not.
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true)
@@ -24,6 +28,34 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
 
+    /**
+     * @param http Security configuration
+     * <p>csrf is disabled because we are using tokens</p>
+     *
+     * <p>cors is enabled to allow cross origin requests</p>
+     *
+     * <p>add jwtFilter {@link JwtFilter} as add {@link UsernamePasswordAuthenticationFilter} to filter requests whether they are authorized or not.</p>
+     * <p>add headers to allow cross origin requests</p>
+     *
+     * <p>frame options is disabled to allow iframes in the same domain for H2-Console access</p>
+     *
+     * <p>session creation is disabled to allow stateless requests with JWT tokens</p>
+     *
+     * <p>Authorized requests are allowed to access all resources</p>
+     *            <p>All has access to; </p>
+     *            <p> /actuator/**</p>
+     *            <p> /api/v1/auth/login</p>
+     *            <p> /api/v1/auth/register</p>
+     *            <p> /h2-console/**</p>
+     *            <p> /swagger-ui.html</p>
+     *            <p> /v2/api-docs</p>
+     *            <p> /swagger-resources/**</p>
+     *            <p> /swagger-ui.html</p>
+     * other requests are filtered by {@link JwtFilter}
+     * <p>httbasic is disabled, only JWT is used</p>
+     * <p>logout is disabled, only JWT is used so JWT expiration is used to handle logout</p>
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -46,13 +78,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/auth/register",
                         "/h2-console/**"
                 ).permitAll()
-                .antMatchers("/swagger-ui/**", "/v2/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .antMatchers("/swagger-ui/**", "/v2/**", "/swagger-resources/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().disable()
                 .logout().disable();
     }
 
+    /**
+     * @return {@link CorsConfiguration} with allowed origins
+     * <p>allowed origin is <a href="http://localhost:4200">http://localhost:4200</a> for development purposes</p>
+     */
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();

@@ -6,6 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * KalahaGame domain class
+ */
 @Getter
 @Setter
 @ToString

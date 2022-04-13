@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * SecurityUser for SpringSecurity internal use.
+ */
 public class SecurityUser implements UserDetails {
     private final String username;
 

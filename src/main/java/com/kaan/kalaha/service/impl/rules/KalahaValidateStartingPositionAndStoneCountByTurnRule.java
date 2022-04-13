@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Rule to validate starting position and stone count by turn
+ * calls the next rule {@link KalahaValidateStartingPositionAndStoneCountByTurnRule}
+ * uses {@link KalahaGameHelper} to validate the starting position and stone count
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

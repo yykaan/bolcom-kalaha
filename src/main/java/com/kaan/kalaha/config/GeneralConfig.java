@@ -1,28 +1,39 @@
 package com.kaan.kalaha.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * General configuration class
+ * 
+ * Registers objectMapper bean {@link ObjectMapper}
+ * and passwordEncoder bean {@link PasswordEncoder} as type of {@link BCryptPasswordEncoder}
+ */
 @EnableConfigurationProperties
 @Configuration
 public class GeneralConfig {
-
+    
+    /**
+     * ObjectMapper bean
+     * 
+     * @return ObjectMapper
+     */
     @Bean
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        objectMapper.registerModule(javaTimeModule);
-        objectMapper.findAndRegisterModules();
-        return objectMapper;
+        return new ObjectMapper();
     }
 
+    /**
+     * PasswordEncoder bean
+     * 
+     * @return PasswordEncoder
+     */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

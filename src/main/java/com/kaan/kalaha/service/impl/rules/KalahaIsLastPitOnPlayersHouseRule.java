@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Rule to check if the last stone is on the players house
+ * calls the next rule {@link KalahaGameFinishRule}
+ * uses the helper {@link KalahaGameHelper}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

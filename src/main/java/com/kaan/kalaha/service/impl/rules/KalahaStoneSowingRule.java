@@ -17,6 +17,11 @@ import java.util.stream.Collectors;
 
 import static com.kaan.kalaha.constant.KalahaGameConstants.*;
 
+/**
+ * Rule to check if stone can be sowed
+ * calls the next rule {@link KalahaCaptureRule}
+ * uses {@link KalahaGameHelper}
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

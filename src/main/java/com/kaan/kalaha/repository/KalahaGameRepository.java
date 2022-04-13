@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repository for @{@link KalahaGame}
+ * Repository for {@link KalahaGame}
  */
 @Repository
 public interface KalahaGameRepository extends CrudRepository<KalahaGame, Long> {
     /**
-     * Find game by @{@link GameState}
+     * Find game by {@link GameState}
      *
-     * @param gameState @{@link GameState} to find by
-     * @return List of @{@link KalahaGame} with given GameState
+     * @param gameState {@link GameState} to find by
+     * @return List of {@link KalahaGame} with given GameState
      */
     List<KalahaGame> findByGameState(GameState gameState);
 }
