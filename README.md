@@ -38,14 +38,14 @@ Frontend
 # How to run ?
 
 - Spring boot will take care of database creation but do not forget since H2 is used, everything will be deleted each application cycle!
-    - Backend will be running at http://localhost:8080
-    - H2 console is accessible at http://localhost:8080/h2-console. (no password, schh :hushed:)
-    - REST Documentation will be accessible here http://localhost:8080/swagger-ui/index.html
+  - Backend will be running at http://localhost:8080
+  - H2 console is accessible at http://localhost:8080/h2-console. (no password, schh :hushed:)
+  - REST Documentation will be accessible here http://localhost:8080/swagger-ui/index.html
 - To run frontend you must access your terminal and go to /src/main/bolcom-kalaha-fe directory
-    - run `npm-install`
-    - Wait for 8 hours, then come back..
-    - run `ng serve`
-    - Ta da! frontend will be accessible at http://localhost:4200
+  - run `npm-install`
+  - Wait for 8 hours, then come back..
+  - run `ng serve`
+  - Ta da! frontend will be accessible at http://localhost:4200
 
 # Screen Shots (Not Sorry for top level UI/UX :eyes:)
 
@@ -73,6 +73,6 @@ Frontend
 
 - Game state is not refreshed on frontend so I could have used websockets to refresh the game state.
 - NoSql could be a better choice since it does not restrict data model and easy to change, can be scaled vertically compared to RDBMS.
-This allows for a more flexible architecture in case of user number increases dramatically.
+  This allows for a more flexible architecture in case of user number increases dramatically.
 - Improve tests to cover all possible scenarios.
 - Improve UI/UX
