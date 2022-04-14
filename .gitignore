@@ -23,7 +23,9 @@
 hs_err_pid*
 replay_pid*
 
-src/main/resources/bolcom-kalaha-fe/node_modules
-src/main/resources/bolcom-kalaha-fe/node_modules/*
-src/main/resources/bolcom-kalaha-fe/.vscode
-src/main/resources/bolcom-kalaha-fe/.angular
+src/main/bolcom-kalaha-fe/node_modules
+src/main/bolcom-kalaha-fe/node_modules/*
+src/main/bolcom-kalaha-fe/.vscode
+src/main/bolcom-kalaha-fe/.angular
+
+.DS_Store

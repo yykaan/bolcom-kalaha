@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Table(name = "KALAHA_PLAYER")
 @NoArgsConstructor
 public class KalahaPlayer{
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -30,7 +29,6 @@ public class KalahaPlayer{
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    //create constructor with username, email, password
     public KalahaPlayer(String username, String email, String password) {
         this.username = username;
         this.email = email;

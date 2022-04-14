@@ -22,6 +22,7 @@ public class KalahaBoard{
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
     @JsonManagedReference
     @HashCodeExclude
     @OneToMany(mappedBy = "kalahaBoard")

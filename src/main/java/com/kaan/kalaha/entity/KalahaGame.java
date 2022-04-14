@@ -39,11 +39,9 @@ public class KalahaGame{
     @JoinColumn(name = "board_id")
     private KalahaBoard kalahaBoard;
 
-
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "GAME_STATE", nullable = false)
     private GameState gameState;
-
 
     public KalahaGame(KalahaPlayer player, KalahaPlayer playerTurn, GameState gameState) {
         this.firstPlayer = player;
