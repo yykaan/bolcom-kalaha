@@ -3,6 +3,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yykaan_bolcom-kalaha&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=yykaan_bolcom-kalaha)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=yykaan_bolcom-kalaha&metric=bugs)](https://sonarcloud.io/summary/new_code?id=yykaan_bolcom-kalaha)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=yykaan_bolcom-kalaha&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=yykaan_bolcom-kalaha)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=yykaan_bolcom-kalaha&metric=coverage)](https://sonarcloud.io/summary/new_code?id=yykaan_bolcom-kalaha)
 
 Kalah (Kalaha or Mancala) Board Game. For more information visit https://en.wikipedia.org
 
