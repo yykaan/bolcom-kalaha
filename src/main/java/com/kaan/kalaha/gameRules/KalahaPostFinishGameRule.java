@@ -45,7 +45,7 @@ public class KalahaPostFinishGameRule implements KalahaRule {
     private void emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(KalahaBoard kalahaBoard, PlayerTurn playerTurn) {
         log.info("Empty Player Pits By Player Turn And Put Stones On Player House");
         KalahaPit playerHouse = kalahaBoard.getPits().stream()
-                .filter(kalahaGameHelper.getGetPlayerHouse(playerTurn)).toList().get(0);
+                .filter(kalahaGameHelper.getGetPlayerHouse(playerTurn)).findFirst().get();
 
         kalahaBoard.getPits().stream()
                 .filter(kalahaGameHelper.getPlayerPits(playerTurn))
