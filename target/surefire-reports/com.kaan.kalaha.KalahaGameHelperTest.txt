@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.kaan.kalaha.KalahaGameHelperTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s - in com.kaan.kalaha.KalahaGameHelperTest

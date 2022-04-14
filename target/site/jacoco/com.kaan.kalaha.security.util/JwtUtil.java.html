@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">kalaha</a> &gt; <a href="index.source.html" class="el_package">com.kaan.kalaha.security.util</a> &gt; <span class="el_source">JwtUtil.java</span></div><h1>JwtUtil.java</h1><pre class="source lang-java linenums">package com.kaan.kalaha.security.util;
+
+
+import com.kaan.kalaha.exception.JWTTokenException;
+import com.kaan.kalaha.security.model.SecurityUser;
+import io.jsonwebtoken.*;
+
+import java.util.Date;
+import java.util.Optional;
+
+/**
+ * JWT token util class responsible for creating and validating JWT tokens.
+ */
+<span class="nc" id="L14">public class JwtUtil {</span>
+
+<span class="fc" id="L16">    public static String SECRET_KEY = &quot;superSecret&quot;;</span>
+
+    /**
+     * Creates a JWT token for the given user with the given expiration time and signs it with the secret key {@link #SECRET_KEY}.
+     * @param user - user to generate token for
+     * @return - generated token
+     */
+    public static String generateToken(SecurityUser user) {
+<span class="fc" id="L24">        Date currentDate = new Date();</span>
+<span class="fc" id="L25">        return Jwts.builder()</span>
+<span class="fc" id="L26">                .setSubject(user.getUsername())</span>
+<span class="fc" id="L27">                .setIssuedAt(currentDate)</span>
+<span class="fc" id="L28">                .setExpiration(null)</span>
+<span class="fc" id="L29">                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)</span>
+<span class="fc" id="L30">                .compact();</span>
+    }
+
+    /**
+     * Validates the given token and returns the user if the token is valid
+     * otherwise throws JWT token exception {@link JWTTokenException}.
+     * @param token - token to validate
+     * @return - body of the token
+     */
+    public static Optional&lt;Claims&gt; validateToken(String token) {
+        try {
+<span class="nc" id="L41">            Claims body = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();</span>
+<span class="nc" id="L42">            return Optional.of(body);</span>
+<span class="nc" id="L43">        } catch (SignatureException e) {</span>
+<span class="nc" id="L44">            throw new JWTTokenException(&quot;Signature Exception&quot;);</span>
+<span class="nc" id="L45">        } catch (MalformedJwtException e) {</span>
+<span class="nc" id="L46">            throw new JWTTokenException(&quot;Token Exception&quot;);</span>
+<span class="nc" id="L47">        } catch (ExpiredJwtException e) {</span>
+<span class="nc" id="L48">            throw new JWTTokenException(&quot;Expired Token Exception&quot;);</span>
+<span class="nc" id="L49">        } catch (UnsupportedJwtException e) {</span>
+<span class="nc" id="L50">            throw new JWTTokenException(&quot;Unsupported Exception&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

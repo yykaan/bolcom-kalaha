@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KalahaGameServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">kalaha</a> &gt; <a href="index.source.html" class="el_package">com.kaan.kalaha.service.impl</a> &gt; <span class="el_source">KalahaGameServiceImpl.java</span></div><h1>KalahaGameServiceImpl.java</h1><pre class="source lang-java linenums">package com.kaan.kalaha.service.impl;
+
+import com.kaan.kalaha.entity.KalahaBoard;
+import com.kaan.kalaha.entity.KalahaGame;
+import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.enums.GameState;
+import com.kaan.kalaha.exception.GameNotFoundException;
+import com.kaan.kalaha.exception.UserNotLoggedInException;
+import com.kaan.kalaha.repository.KalahaGameRepository;
+import com.kaan.kalaha.service.AuthService;
+import com.kaan.kalaha.service.KalahaBoardService;
+import com.kaan.kalaha.service.KalahaGameService;
+import com.kaan.kalaha.service.KalahaPitService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+<span class="fc" id="L24">@Slf4j</span>
+<span class="fc" id="L25">@RequiredArgsConstructor</span>
+public class KalahaGameServiceImpl implements KalahaGameService {
+    private final KalahaGameRepository kalahaGameRepository;
+    private final KalahaBoardService kalahaBoardService;
+    private final KalahaPitService kalahaPitService;
+    private final AuthService authService;
+
+    @Override
+    @Transactional
+    public KalahaGame createNewGame() {
+<span class="fc" id="L35">        KalahaPlayer kalahaPlayer = authService.getCurrentUser();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (kalahaPlayer == null){</span>
+<span class="fc" id="L37">            throw new UserNotLoggedInException(&quot;User not logged in!&quot;);</span>
+        }
+<span class="fc" id="L39">        log.info(&quot;Creating new KalahaGame for player: {}&quot;, kalahaPlayer);</span>
+<span class="fc" id="L40">        KalahaGame kalahaGame  = new KalahaGame(kalahaPlayer, kalahaPlayer, GameState.WAITING_FOR_OTHER_PLAYER);</span>
+
+<span class="fc" id="L42">        KalahaBoard board = kalahaBoardService.createKalahaBoard(kalahaGame);</span>
+<span class="fc" id="L43">        log.info(&quot;KalahaBoard {} created for KalahaGame {}&quot;, board, kalahaGame);</span>
+
+<span class="fc" id="L45">        kalahaPitService.createPits(board);</span>
+<span class="fc" id="L46">        log.info(&quot;KalahaPits created for KalahaBoard {}&quot;, board);</span>
+
+<span class="fc" id="L48">        kalahaGame.setKalahaBoard(board);</span>
+
+<span class="fc" id="L50">        kalahaGameRepository.save(kalahaGame);</span>
+<span class="fc" id="L51">        log.info(&quot;Created new KalahaGame {} for player: {}&quot;, kalahaGame, kalahaPlayer);</span>
+
+<span class="fc" id="L53">        return kalahaGame;</span>
+    }
+
+    @Override
+    @Transactional
+    public KalahaGame update(KalahaGame kalahaGame) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(kalahaGameRepository.existsById(kalahaGame.getId())){</span>
+<span class="fc" id="L60">            return kalahaGameRepository.save(kalahaGame);</span>
+        }
+<span class="fc" id="L62">        throw new GameNotFoundException(&quot;Game not found with id:&quot;+kalahaGame.getId());</span>
+    }
+
+    @Override
+    @Transactional
+    public KalahaGame joinGame(KalahaPlayer player, Long gameId) {
+<span class="fc" id="L68">        log.info(&quot;Joining KalahaGame with id: {} for player: {}&quot;, gameId, player.toString());</span>
+<span class="fc" id="L69">        KalahaGame kalahaGame = getGameById(gameId);</span>
+<span class="fc" id="L70">        log.info(&quot;KalahaGame found, joining the game: {}&quot;, kalahaGame.toString());</span>
+
+
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">        if (player.equals(kalahaGame.getFirstPlayer()) || player.equals(kalahaGame.getSecondPlayer())){</span>
+<span class="fc" id="L74">            return kalahaGame;</span>
+        }
+        // Set Second player
+<span class="fc" id="L77">        log.info(&quot;Setting second player: {} for KalahaGame {}&quot;, player, kalahaGame);</span>
+<span class="fc" id="L78">        kalahaGame.setSecondPlayer(player);</span>
+<span class="fc" id="L79">        log.info(&quot;Second player set: {}&quot;, player);</span>
+
+        // Update gamestate
+<span class="fc" id="L82">        log.info(&quot;Updating KalahaGame {} gamestate to: {}&quot;, kalahaGame, GameState.IN_PROGRESS);</span>
+<span class="fc" id="L83">        updateGameState(kalahaGame, GameState.IN_PROGRESS);</span>
+<span class="fc" id="L84">        log.info(&quot;KalahaGame updated: {}&quot;, kalahaGame);</span>
+
+        // Save KalahaGame
+<span class="fc" id="L87">        log.info(&quot;Saving KalahaGame: {}&quot;, kalahaGame);</span>
+<span class="fc" id="L88">        kalahaGameRepository.save(kalahaGame);</span>
+<span class="fc" id="L89">        log.info(&quot;KalahaGame saved: {}&quot;, kalahaGame);</span>
+
+<span class="fc" id="L91">        return kalahaGame;</span>
+    }
+
+    @Override
+    @Transactional
+    public KalahaGame updateGameState(KalahaGame game, GameState gameState) {
+<span class="fc" id="L97">        log.info(&quot;Updating KalahaGame gamestate to: {}&quot;, gameState);</span>
+<span class="fc" id="L98">        KalahaGame kalahaGame = getGameById(game.getId());</span>
+
+<span class="fc" id="L100">        log.info(&quot;KalahaGame found: {}&quot;, kalahaGame.toString());</span>
+<span class="fc" id="L101">        kalahaGame.setGameState(gameState);</span>
+<span class="fc" id="L102">        log.info(&quot;KalahaGame updated: {}&quot;, kalahaGame);</span>
+
+<span class="fc" id="L104">        log.info(&quot;Saving KalahaGame for updating gamestate: {}&quot;, kalahaGame);</span>
+<span class="fc" id="L105">        kalahaGameRepository.save(kalahaGame);</span>
+<span class="fc" id="L106">        log.info(&quot;KalahaGame saved for updating gamestate: {}&quot;, kalahaGame);</span>
+
+<span class="fc" id="L108">        return kalahaGame;</span>
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public KalahaGame getGameById(Long id) {
+<span class="fc" id="L114">        Optional&lt;KalahaGame&gt; kalahaGame = kalahaGameRepository.findById(id);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (kalahaGame.isEmpty()) {</span>
+<span class="fc" id="L116">            throw new GameNotFoundException(&quot;Game not found with id&quot;+id);</span>
+        }else {
+<span class="fc" id="L118">            return kalahaGame.get();</span>
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List&lt;KalahaGame&gt; getGamesToJoin(KalahaPlayer player) {
+<span class="fc" id="L125">        log.info(&quot;Getting KalahaGames available to join for player: {}&quot;, player.toString());</span>
+<span class="fc" id="L126">        return kalahaGameRepository.findByGameState(GameState.WAITING_FOR_OTHER_PLAYER)</span>
+<span class="fc" id="L127">                .stream().filter(</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">                        kalahaGame -&gt; kalahaGame.getFirstPlayer() != player</span>
+<span class="fc" id="L129">                ).collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

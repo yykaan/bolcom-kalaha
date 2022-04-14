@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OpenApi3Config.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">kalaha</a> &gt; <a href="index.source.html" class="el_package">com.kaan.kalaha.config</a> &gt; <span class="el_source">OpenApi3Config.java</span></div><h1>OpenApi3Config.java</h1><pre class="source lang-java linenums">package com.kaan.kalaha.config;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * OpenApi3Config class
+ * configures JWT token for request on OpenApi UI
+ */
+@Configuration
+<span class="nc" id="L17">public class OpenApi3Config {</span>
+    @Bean
+    public OpenAPI customOpenAPI() {
+<span class="nc" id="L20">        final String securitySchemeName = &quot;bearerAuth&quot;;</span>
+<span class="nc" id="L21">        final String apiTitle = &quot;KALAHA API&quot;;</span>
+<span class="nc" id="L22">        return new OpenAPI()</span>
+<span class="nc" id="L23">                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))</span>
+<span class="nc" id="L24">                .components(</span>
+                        new Components()
+<span class="nc" id="L26">                                .addSecuritySchemes(securitySchemeName,</span>
+                                        new SecurityScheme()
+<span class="nc" id="L28">                                                .name(securitySchemeName)</span>
+<span class="nc" id="L29">                                                .type(SecurityScheme.Type.HTTP)</span>
+<span class="nc" id="L30">                                                .scheme(&quot;bearer&quot;)</span>
+<span class="nc" id="L31">                                                .bearerFormat(&quot;JWT&quot;)</span>
+                                )
+                )
+<span class="nc" id="L34">                .info(new Info()</span>
+<span class="nc" id="L35">                        .contact(new Contact().email(&quot;yyilmazkaan@gmail.com&quot;).name(&quot;Kaan Yılmaz&quot;))</span>
+<span class="nc" id="L36">                        .title(apiTitle)</span>
+<span class="nc" id="L37">                        .version(&quot;1.0.0&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
