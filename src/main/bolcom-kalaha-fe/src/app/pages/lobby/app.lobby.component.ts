@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {GameController} from "../GameController";
 import {Router} from "@angular/router";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-lobby',
@@ -10,7 +11,15 @@ export class LobbyComponent implements OnInit{
 
   games:any;
 
+  gameStateSubscription: Subscription;
+
   constructor(private gameController: GameController, private router: Router) {
+    this.gameStateSubscription = new Subscription();
+    this.gameStateSubscription = interval(2500).subscribe((x => {
+      this.gameController.listAvailableGames().subscribe(result => {
+        this.games = result;
+      })
+    }))
   }
 
   createNewGame() {
