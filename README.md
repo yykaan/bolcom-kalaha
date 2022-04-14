@@ -53,7 +53,7 @@ Frontend
 
 ![Screen Shot 2022-04-14 at 12 53 47](https://user-images.githubusercontent.com/16269104/163362224-cca385a2-e5ee-4f2a-98bc-326ac3e7c111.png)
 
-## Register
+## Register
 
 ![Screen Shot 2022-04-14 at 12 54 44](https://user-images.githubusercontent.com/16269104/163362264-6838172a-fc00-47a8-ba3e-8bebad01e41c.png)
 
@@ -65,6 +65,6 @@ Frontend
 
 ![Screen Shot 2022-04-14 at 12 56 25](https://user-images.githubusercontent.com/16269104/163362333-70a884c8-755c-4656-8d68-e83c41443fea.png)
 
-##Game
+## Game
 
 ![Screen Shot 2022-04-14 at 12 57 22](https://user-images.githubusercontent.com/16269104/163362372-93678cd2-cbf6-4823-acfe-621e1ec59c36.png)
