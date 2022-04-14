@@ -21,31 +21,47 @@ public class KalahaGameHelper {
     private final Predicate<KalahaPit> getPitByPosition = kalahaPit -> kalahaPit.getPosition() == position;
 
     public Boolean validateStartingPitPositionByPlayerTurnAndPitHasStone(PlayerTurn playerTurn, int position, int stones) {
-        return switch (playerTurn) {
-            case P1 -> position >= P1_LOWER_BOUNDARY && position <= P1_UPPER_BOUNDARY && stones > 0;
-            case P2 -> position >= P2_LOWER_BOUNDARY && position <= P2_UPPER_BOUNDARY && stones > 0;
-        };
+        switch (playerTurn) {
+            case P1:
+                return position >= P1_LOWER_BOUNDARY && position <= P1_UPPER_BOUNDARY && stones > 0;
+            case P2:
+                return position >= P2_LOWER_BOUNDARY && position <= P2_UPPER_BOUNDARY && stones > 0;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public Integer getPlayerStoreIndexByPlayerTurn(PlayerTurn playerTurn) {
-        return switch (playerTurn) {
-            case P1 -> P1_STORE;
-            case P2 -> P2_STORE;
-        };
+        switch (playerTurn) {
+            case P1:
+                return P1_STORE;
+            case P2:
+                return P2_STORE;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public Integer getLowerPositionByPlayerTurn(PlayerTurn playerTurn) {
-        return switch (playerTurn) {
-            case P1 -> P1_LOWER_BOUNDARY;
-            case P2 -> P2_LOWER_BOUNDARY;
-        };
+        switch (playerTurn) {
+            case P1:
+                return P1_LOWER_BOUNDARY;
+            case P2:
+                return P2_LOWER_BOUNDARY;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public Integer getUpperPositionByPlayerTurn(PlayerTurn playerTurn) {
-        return switch (playerTurn) {
-            case P1 -> P1_UPPER_BOUNDARY;
-            case P2 -> P2_UPPER_BOUNDARY;
-        };
+        switch (playerTurn) {
+            case P1:
+                return P1_UPPER_BOUNDARY;
+            case P2:
+                return P2_UPPER_BOUNDARY;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     public Integer getOppositePitIndex(int position){

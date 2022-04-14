@@ -73,11 +73,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(readOnly = true)
     public KalahaPlayer getCurrentUser() {
-        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User principal){
-            return kalahaPlayerService.findPlayerByUsername(principal.getUsername());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if ( principal instanceof User){
+            return kalahaPlayerService.findPlayerByUsername(((User)principal).getUsername());
         }else{
-            SecurityUser principal = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return kalahaPlayerService.findPlayerByUsername(principal.getUsername());
+            return kalahaPlayerService.findPlayerByUsername(((SecurityUser)principal).getUsername());
         }
 
     }
