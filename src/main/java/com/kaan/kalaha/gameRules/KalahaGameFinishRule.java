@@ -33,9 +33,10 @@ public class KalahaGameFinishRule implements KalahaRule {
                         .filter(kalahaGameHelper.getPlayerPits(PlayerTurn.P2))
                         .filter(kalahaGameHelper.getGetPlayerOnlyPits())
                         .noneMatch(kalahaGameHelper.getIsPitHasStone())){
+            log.info("Game is finished");
+            log.info("Cleaning up the board");
             getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         }
-        switchTurn(kalahaGame);
         log.info("Game finish rule is evaluated");
         return kalahaGame;
     }

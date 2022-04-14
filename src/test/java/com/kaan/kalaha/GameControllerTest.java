@@ -2,9 +2,7 @@ package com.kaan.kalaha;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kaan.kalaha.controller.GameController;
-import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
-import com.kaan.kalaha.entity.KalahaPit;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.security.filter.JwtFilter;
 import com.kaan.kalaha.service.*;
@@ -24,7 +22,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import static com.kaan.kalaha.TestUtils.createKalahaPlayer;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -227,16 +224,6 @@ public class GameControllerTest {
         game.setId(1L);
         Mockito.when(gameService.createNewGame())
                 .thenReturn(game);
-
-        KalahaBoard kalahaBoard = new KalahaBoard();
-        Mockito.when(boardService.createKalahaBoard(any(KalahaGame.class)))
-                .thenReturn(kalahaBoard);
-
-        List<KalahaPit> kalahaPitList = new ArrayList<>();
-        Mockito.when(pitService.createPits(any(KalahaBoard.class)))
-                .thenReturn(kalahaPitList);
-
-        game.setKalahaBoard(kalahaBoard);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/v1/game/create")
                         .contentType(MediaType.APPLICATION_JSON)

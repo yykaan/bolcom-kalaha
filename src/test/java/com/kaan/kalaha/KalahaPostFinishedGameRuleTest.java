@@ -4,8 +4,8 @@ import com.kaan.kalaha.constant.KalahaGameConstants;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.enums.GameState;
 import com.kaan.kalaha.enums.PlayerTurn;
-import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import com.kaan.kalaha.gameRules.KalahaPostFinishGameRule;
+import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,8 +37,8 @@ public class KalahaPostFinishedGameRuleTest {
         KalahaGame evaluatedGame = kalahaPostFinishGameRule.evaluate(kalahaGame, kalahaGame.getFirstPlayer(), KalahaGameConstants.P1_LOWER_BOUNDARY, PlayerTurn.P1);
 
         assertThat(evaluatedGame.getGameState()).isEqualTo(GameState.FINISHED);
-        assertThat(getPitByIndex(evaluatedGame, KalahaGameConstants.P1_STORE, kalahaGameHelper).getStones()).isEqualTo(19);
-        assertThat(getPitByIndex(evaluatedGame, KalahaGameConstants.P2_STORE, kalahaGameHelper).getStones()).isEqualTo(10);
+        assertThat(getPitByIndex(evaluatedGame, KalahaGameConstants.P1_STORE, kalahaGameHelper).getStones()).isEqualTo(9);
+        assertThat(getPitByIndex(evaluatedGame, KalahaGameConstants.P2_STORE, kalahaGameHelper).getStones()).isEqualTo(20);
 
         assertThat(kalahaPostFinishGameRule.getNextRule()).isNull();
     }

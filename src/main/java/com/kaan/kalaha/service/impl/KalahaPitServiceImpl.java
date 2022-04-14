@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.kaan.kalaha.constant.KalahaGameConstants.*;
-import static com.kaan.kalaha.constant.KalahaGameConstants.P2_UPPER_BOUNDARY;
 
 @Service
 @Slf4j
@@ -34,6 +33,7 @@ public class KalahaPitServiceImpl implements KalahaPitService {
         log.info("KalahaPit saved {}", kalahaPit);
         kalahaBoard.getPits().add(kalahaPit);
         kalahaBoardRepository.save(kalahaBoard);
+        log.info("Created KalahaPit on KalahaBoard {}", kalahaBoard.getId());
 
         return kalahaPit;
     }

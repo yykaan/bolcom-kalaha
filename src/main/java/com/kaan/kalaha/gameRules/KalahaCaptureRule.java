@@ -30,12 +30,14 @@ public class KalahaCaptureRule implements KalahaRule {
         if (position >= kalahaGameHelper.getLowerPositionByPlayerTurn(playerTurn) &&
                 position <= kalahaGameHelper.getUpperPositionByPlayerTurn(playerTurn) &&
                 kalahaBoard.getPits().stream().filter(kalahaGameHelper.getGetPitByPosition(position)).findFirst().get().getStones() == 1) {
+            log.info("Capturing stone can be evaluated");
 
             Integer oppositePitStones = kalahaBoard.getPits().stream()
                     .filter(kalahaGameHelper.getGetPitByPosition(kalahaGameHelper.getOppositePitIndex(position)))
                     .findFirst().get().getStones();
 
             if (oppositePitStones > 0) {
+                log.info("Opposite pit has stones");
                 kalahaBoard.getPits().stream()
                         .filter(kalahaGameHelper.getGetPitByPosition(kalahaGameHelper.getOppositePitIndex(position)))
                         .findFirst()
@@ -55,18 +57,21 @@ public class KalahaCaptureRule implements KalahaRule {
                         });
 
                 kalahaBoard.getPits().stream()
-                        .filter(kalahaGameHelper.getGetPlayerHouse())
+                        .filter(kalahaGameHelper.getGetPlayerHouse(playerTurn))
                         .findFirst()
                         .ifPresentOrElse(kalahaPit -> {
                             kalahaPit.setStones(kalahaPit.getStones() + oppositePitStones + 1);
                         },() -> {
                             log.info("Player house is empty");
                         });
-                return kalahaGame;
+                log.info("Capturing stone is evaluated");
+                log.info("Switching player");
+                switchTurn(kalahaGame);
             }
         }
-        getNextRule().evaluate(kalahaGame, player, position, playerTurn);
+
         log.info("KalahaCaptureRule evaluating completed");
+        getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;
     }
 

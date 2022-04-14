@@ -33,10 +33,7 @@ import java.util.List;
 @Tag(description = "Game Logic Handler",
         name = "GameController")
 public class GameController {
-
-    private final KalahaBoardService boardService;
     private final KalahaGameService gameService;
-    private final KalahaPitService pitService;
     private final AuthService authService;
 
     private final KalahaPlayService kalahaPlayService;
@@ -87,19 +84,7 @@ public class GameController {
     @PostMapping(value = "/create")
     public KalahaGame createNewGame() {
         log.info("Creating new game");
-
-        // Create a new game
-        KalahaGame game = gameService.createNewGame();
-
-        // Create the game Board
-        KalahaBoard board = boardService.createKalahaBoard(game);
-        pitService.createPits(board);
-
-        game.setKalahaBoard(board);
-
-        gameService.update(game);
-
-        return game;
+        return gameService.createNewGame();
     }
 
     /**
@@ -107,7 +92,7 @@ public class GameController {
      * evaluates the play by rules {@link KalahaRule}
      *
      * @param gameId game id {@link KalahaGame}
-     * @param position pit position {@link KalahaPit.position}
+     * @param position pit position {@link KalahaPit#setPosition(int)}
      * @return KalahaGame {@link KalahaGame}
      */
     @Operation(summary = "Sow stone",

@@ -1,6 +1,8 @@
 package com.kaan.kalaha;
 
+import com.kaan.kalaha.config.cache.CacheManager;
 import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.exception.AuthenticationException;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.service.UserDetailsServiceImpl;
 import com.kaan.kalaha.security.util.JwtUtil;
@@ -18,8 +20,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Map;
+
 import static com.kaan.kalaha.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -30,6 +35,9 @@ public class AuthServiceTest {
 
     @Mock
     PasswordEncoder passwordEncoder;
+
+    @Mock
+    CacheManager cacheManager;
 
     @Mock
     UserDetailsServiceImpl userDetailsService;
@@ -143,5 +151,71 @@ public class AuthServiceTest {
 
         KalahaPlayer currentUser = authService.getCurrentUser();
         assertThat(currentUser).isNull();
+    }
+
+    @Test
+    public void authenticate_success(){
+        when(kalahaPlayerService.findPlayerByUsername(createKalahaPlayer().getUsername()))
+                .thenReturn(createKalahaPlayer());
+
+        when(authService.isPasswordTrue(createLoginRequest()))
+                .thenReturn(true);
+
+        when( cacheManager.getValue(anyString()))
+                .thenReturn(null);
+
+        when(authService.loadUserByUserName(anyString()))
+                .thenReturn(createSecurityUser());
+
+        try (MockedStatic<JwtUtil> utilities = Mockito.mockStatic(JwtUtil.class)) {
+            utilities.when(() -> JwtUtil.generateToken(any(SecurityUser.class)))
+                    .thenReturn("token");
+
+            assertThat(JwtUtil.generateToken(createSecurityUser())).isEqualTo("token");
+            String token = authService.generateJwtToken(createSecurityUser());
+            assertThat(token).isEqualTo("token");
+        }
+
+        Map<String, Object> response = authService.authenticateUser(createLoginRequest());
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void authenticate_successWithAlreadyLoggedInUser_deleteCacheKey(){
+        when(kalahaPlayerService.findPlayerByUsername(createKalahaPlayer().getUsername()))
+                .thenReturn(createKalahaPlayer());
+
+        when(authService.isPasswordTrue(createLoginRequest()))
+                .thenReturn(true);
+
+        when( cacheManager.getValue(anyString()))
+                .thenReturn("key");
+
+        when(authService.loadUserByUserName(anyString()))
+                .thenReturn(createSecurityUser());
+
+        try (MockedStatic<JwtUtil> utilities = Mockito.mockStatic(JwtUtil.class)) {
+            utilities.when(() -> JwtUtil.generateToken(any(SecurityUser.class)))
+                    .thenReturn("token");
+
+            assertThat(JwtUtil.generateToken(createSecurityUser())).isEqualTo("token");
+            String token = authService.generateJwtToken(createSecurityUser());
+            assertThat(token).isEqualTo("token");
+        }
+
+        Map<String, Object> response = authService.authenticateUser(createLoginRequest());
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    public void authenticate_fail(){
+        when(kalahaPlayerService.findPlayerByUsername(createKalahaPlayer().getUsername()))
+                .thenReturn(createKalahaPlayer());
+
+        when(authService.isPasswordTrue(createLoginRequest()))
+                .thenReturn(false);
+
+        assertThrows(AuthenticationException.class,
+                () -> authService.authenticateUser(createLoginRequest()));
     }
 }

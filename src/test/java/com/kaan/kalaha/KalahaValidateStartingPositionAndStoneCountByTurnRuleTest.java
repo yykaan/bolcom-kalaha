@@ -2,9 +2,9 @@ package com.kaan.kalaha;
 
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.enums.PlayerTurn;
-import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import com.kaan.kalaha.gameRules.KalahaIsStartingPitStoreRule;
 import com.kaan.kalaha.gameRules.KalahaValidateStartingPositionAndStoneCountByTurnRule;
+import com.kaan.kalaha.service.impl.KalahaGameHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

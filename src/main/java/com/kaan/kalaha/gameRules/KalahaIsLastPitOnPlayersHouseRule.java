@@ -23,12 +23,15 @@ public class KalahaIsLastPitOnPlayersHouseRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("Evaluating rule: {}", this.getClass().getSimpleName());
+        log.info("Checking if the last stone is on the players house");
 
-        if (position == kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
-            return kalahaGame;
+        if (position != kalahaGameHelper.getPlayerStoreIndexByPlayerTurn(playerTurn)) {
+            log.info("Last stone is not on the players house");
+            log.info("Switching turn");
+            switchTurn(kalahaGame);
         }
-        log.info("Evaluated rule: {}", this.getClass().getSimpleName());
+        log.info("Last stone is on the players house");
+
         getNextRule().evaluate(kalahaGame, player, position, playerTurn);
         return kalahaGame;
     }

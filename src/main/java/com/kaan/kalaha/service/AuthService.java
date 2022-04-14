@@ -3,7 +3,10 @@ package com.kaan.kalaha.service;
 import com.kaan.kalaha.dto.LoginRequest;
 import com.kaan.kalaha.dto.RegisterRequest;
 import com.kaan.kalaha.entity.KalahaPlayer;
+import com.kaan.kalaha.exception.AuthenticationException;
 import com.kaan.kalaha.security.model.SecurityUser;
+
+import java.util.Map;
 
 /**
  * Responsible for authentication and authorization.
@@ -41,4 +44,11 @@ public interface AuthService {
      * @return {@link KalahaPlayer}
      */
     KalahaPlayer getCurrentUser();
+
+    /**
+     * @param loginRequest  {@link LoginRequest} the login request
+     * @return {@link Map} of "token" as {@link String} key and "opaque token" as {@link String} value if successful
+     * @throws AuthenticationException if the login request is invalid
+     */
+    Map<String, Object> authenticateUser(LoginRequest loginRequest);
 }

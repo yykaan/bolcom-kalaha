@@ -1,10 +1,8 @@
 package com.kaan.kalaha.controller;
 
-import com.kaan.kalaha.config.cache.CacheManager;
 import com.kaan.kalaha.dto.LoginRequest;
 import com.kaan.kalaha.dto.RegisterRequest;
 import com.kaan.kalaha.security.model.SecurityUser;
-import com.kaan.kalaha.security.util.JwtUtil;
 import com.kaan.kalaha.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,15 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Class to handle authentication requests and register requests
  * Uses {@link AuthService} to handle authentication and register requests
- * Uses {@link JwtUtil} to generate JWT tokens
- * Uses {@link CacheManager} to cache tokens
  * @author Kaan Yılmaz
  */
 @Slf4j
@@ -38,7 +32,6 @@ import java.util.UUID;
 @Tag(description = "Authentication and registration",
         name = "Authentication")
 public class AuthController {
-    private final CacheManager cacheManager;
     private final AuthService authService;
 
     /**
@@ -62,35 +55,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody LoginRequest loginRequest) {
         log.info("Login request received: {}", loginRequest.getUsername());
-        boolean isValid = authService.isPasswordTrue(loginRequest);
-        if (isValid){
-            log.info("Login request successful: {}", loginRequest.getUsername());
-            String previousAuthToken = cacheManager.getValue(loginRequest.getUsername());
-
-            if (previousAuthToken != null) {
-                log.info("Previous auth token found for user: {}", loginRequest.getUsername());
-                cacheManager.delete(loginRequest.getUsername());
-                cacheManager.delete(previousAuthToken);
-                log.info("Previous auth token deleted for user: {}", loginRequest.getUsername());
-            }
-
-            SecurityUser securityUser = authService.loadUserByUserName(loginRequest.getUsername());
-
-            Map<String, Object> response = new HashMap<>();
-
-            String jwt = authService.generateJwtToken(securityUser);
-            String opaqueToken = UUID.randomUUID().toString();
-
-            cacheManager.save(opaqueToken, jwt);
-            cacheManager.save(loginRequest.getUsername(), opaqueToken);
-
-            log.info("JWT generated for user {}", securityUser.getUsername());
-
-            response.put("token", opaqueToken);
-            return ResponseEntity.ok(response);
-        }else {
-            log.error("Login request failed: {}", loginRequest.getUsername());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        try {
+            return ResponseEntity.ok(authService.authenticateUser(loginRequest));
+        }catch (Exception e){
+            log.error("Error while authenticating user: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 

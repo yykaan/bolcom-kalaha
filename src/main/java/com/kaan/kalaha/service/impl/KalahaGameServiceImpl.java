@@ -1,5 +1,6 @@
 package com.kaan.kalaha.service.impl;
 
+import com.kaan.kalaha.entity.KalahaBoard;
 import com.kaan.kalaha.entity.KalahaGame;
 import com.kaan.kalaha.entity.KalahaPlayer;
 import com.kaan.kalaha.enums.GameState;
@@ -7,9 +8,9 @@ import com.kaan.kalaha.exception.GameNotFoundException;
 import com.kaan.kalaha.exception.UserNotLoggedInException;
 import com.kaan.kalaha.repository.KalahaGameRepository;
 import com.kaan.kalaha.service.AuthService;
+import com.kaan.kalaha.service.KalahaBoardService;
 import com.kaan.kalaha.service.KalahaGameService;
-import com.kaan.kalaha.service.KalahaPlayService;
-import com.kaan.kalaha.service.KalahaPlayerService;
+import com.kaan.kalaha.service.KalahaPitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KalahaGameServiceImpl implements KalahaGameService {
     private final KalahaGameRepository kalahaGameRepository;
+    private final KalahaBoardService kalahaBoardService;
+    private final KalahaPitService kalahaPitService;
     private final AuthService authService;
 
     @Override
@@ -35,9 +38,18 @@ public class KalahaGameServiceImpl implements KalahaGameService {
         }
         log.info("Creating new KalahaGame for player: {}", kalahaPlayer);
         KalahaGame kalahaGame  = new KalahaGame(kalahaPlayer, kalahaPlayer, GameState.WAITING_FOR_OTHER_PLAYER);
-        
+
+        KalahaBoard board = kalahaBoardService.createKalahaBoard(kalahaGame);
+        log.info("KalahaBoard {} created for KalahaGame {}", board, kalahaGame);
+
+        kalahaPitService.createPits(board);
+        log.info("KalahaPits created for KalahaBoard {}", board);
+
+        kalahaGame.setKalahaBoard(board);
+
         kalahaGameRepository.save(kalahaGame);
-        log.info("KalahaGame created: {}", kalahaGame);
+        log.info("Created new KalahaGame {} for player: {}", kalahaGame, kalahaPlayer);
+
         return kalahaGame;
     }
 
@@ -62,12 +74,12 @@ public class KalahaGameServiceImpl implements KalahaGameService {
             return kalahaGame;
         }
         // Set Second player
-        log.info("Setting second player: {}", player);
+        log.info("Setting second player: {} for KalahaGame {}", player, kalahaGame);
         kalahaGame.setSecondPlayer(player);
         log.info("Second player set: {}", player);
 
         // Update gamestate
-        log.info("Updating KalahaGame gamestate to: {}", GameState.IN_PROGRESS);
+        log.info("Updating KalahaGame {} gamestate to: {}", kalahaGame, GameState.IN_PROGRESS);
         updateGameState(kalahaGame, GameState.IN_PROGRESS);
         log.info("KalahaGame updated: {}", kalahaGame);
 

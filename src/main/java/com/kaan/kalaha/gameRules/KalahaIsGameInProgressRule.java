@@ -22,7 +22,7 @@ public class KalahaIsGameInProgressRule implements KalahaRule {
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
         log.info("Game is in progress rule is evaluating");
         if (isGameStillInProgress(kalahaGame)){
-            log.info("Game is in progress rule evaluated - Game in progress, evaluate next rule");
+            log.info("Game is in progress rule evaluated - Game is in "+GameState.IN_PROGRESS+", evaluate next rule");
             getNextRule().evaluate(kalahaGame, player, position,playerTurn);
         }
         log.info("Game is in progress rule - Game is {}!", kalahaGame.getGameState());

@@ -17,7 +17,6 @@ public class KalahaGameHelper {
     private int position;
     private final Predicate<KalahaPit> getPlayerPits = kalahaPit -> kalahaPit.getPosition() >= lowerBound && kalahaPit.getPosition() <= upperBound;
     private final Predicate<KalahaPit> getPlayerOnlyPits = kalahaPit -> kalahaPit.getPitType() == PitType.PIT;
-    private final Predicate<KalahaPit> getPlayerHouse = kalahaPit -> kalahaPit.getPitType() == PitType.HOUSE;
     private final Predicate<KalahaPit> isPitHasStone = kalahaPit -> kalahaPit.getStones() > 0;
     private final Predicate<KalahaPit> getPitByPosition = kalahaPit -> kalahaPit.getPosition() == position;
 
@@ -83,8 +82,8 @@ public class KalahaGameHelper {
         return isPitHasStone;
     }
 
-    public Predicate<KalahaPit> getGetPlayerHouse(){
-        return getPlayerHouse;
+    public Predicate<KalahaPit> getGetPlayerHouse(PlayerTurn playerTurn){
+        return this.getGetPitByPosition(this.getPlayerStoreIndexByPlayerTurn(playerTurn));
     }
 
     public Predicate<KalahaPit> getGetPitByPosition(int position){

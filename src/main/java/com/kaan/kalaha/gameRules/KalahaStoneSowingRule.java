@@ -31,7 +31,7 @@ public class KalahaStoneSowingRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("Stone sowing rule is applied");
+        log.info("Stone sowing rule is evaluating");
         KalahaBoard kalahaBoard = kalahaGame.getKalahaBoard();
         KalahaPit startingKalahaPit = Iterables.getOnlyElement(kalahaBoard.getPits().stream()
                 .filter(kalahaGameHelper.getGetPitByPosition(position))
@@ -40,6 +40,7 @@ public class KalahaStoneSowingRule implements KalahaRule {
         int stones = startingKalahaPit.getStones();
 
         if (stones == 0) {
+            log.error("No stone to sow");
             throw new NoStoneToSowException("No stones to sow");
         }
 

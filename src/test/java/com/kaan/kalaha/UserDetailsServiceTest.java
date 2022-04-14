@@ -1,7 +1,5 @@
 package com.kaan.kalaha;
 
-import com.kaan.kalaha.entity.KalahaPlayer;
-import com.kaan.kalaha.exception.GameNotFoundException;
 import com.kaan.kalaha.repository.KalahaPlayerRepository;
 import com.kaan.kalaha.security.model.SecurityUser;
 import com.kaan.kalaha.security.service.UserDetailsServiceImpl;

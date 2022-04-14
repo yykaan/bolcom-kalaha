@@ -17,7 +17,7 @@ public class KalahaPlayerServiceImpl implements KalahaPlayerService {
     @Override
     @Transactional(readOnly = true)
     public KalahaPlayer findPlayerByUsername(String username) {
-        log.info("findPlayerByUsername: {}", username);
+        log.info("Finding KalahaPlayer for username: {}", username);
         return kalahaPlayerRepository.findOneByUsername(username);
     }
 

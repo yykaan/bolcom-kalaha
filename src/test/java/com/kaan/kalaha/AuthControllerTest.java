@@ -22,11 +22,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.kaan.kalaha.TestUtils.*;
+import static com.kaan.kalaha.TestUtils.createLoginRequest;
+import static com.kaan.kalaha.TestUtils.createRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -117,11 +119,10 @@ public class AuthControllerTest {
 
         LoginRequest loginRequest = createLoginRequest();
 
-        Mockito.when(authService.isPasswordTrue(any(LoginRequest.class)))
-                .thenReturn(Boolean.TRUE);
+        Map<String, Object> responseMap = new HashMap<>();
 
-        Mockito.when(authService.loadUserByUserName(anyString()))
-                .thenReturn(createSecurityUser());
+        Mockito.when(authService.authenticateUser(any(LoginRequest.class)))
+                .thenReturn(responseMap);
 
         MvcResult mvcResultLogin = mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,6 +137,41 @@ public class AuthControllerTest {
 
         assertThat(actualLogin).isEqualTo(expectedLogin);
         assertThat(mvcResultLogin.getResponse().getContentAsString()).isNotEmpty();
+    }
+
+    @Test
+    public void login_fail() throws Exception {
+        RegisterRequest registerRequest = createRegisterRequest();
+
+        SecurityUser securityUser = new SecurityUser("bolcomtest");
+
+        Mockito.when(authService.register(any(RegisterRequest.class)))
+                .thenReturn(securityUser);
+
+        MvcResult mvcResult = mockMvc.perform(post("/api/v1/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .content(objectMapper.writeValueAsString(registerRequest)))
+                .andReturn();
+
+        int actual = mvcResult.getResponse().getStatus();
+
+        int expected = HttpStatus.OK.value();
+
+        assertThat(actual).isEqualTo(expected);
+
+        MvcResult mvcResultLoginResponse = mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset()))
+                .andReturn();
+
+        int actualLoginResponse = mvcResultLoginResponse.getResponse().getStatus();
+
+        int expectedLoginResposne = HttpStatus.BAD_REQUEST.value();
+
+        assertThat(actualLoginResponse).isEqualTo(expectedLoginResposne);
     }
 
 }

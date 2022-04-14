@@ -27,10 +27,11 @@ public class KalahaPostFinishGameRule implements KalahaRule {
 
     @Override
     public KalahaGame evaluate(KalahaGame kalahaGame, KalahaPlayer player, int position, PlayerTurn playerTurn) {
-        log.info("Post Finish Game Rule");
+        log.info("Evaluate Post Finish Game Rule");
         Arrays.stream(PlayerTurn.values()).forEach(turn -> {
             emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(kalahaGame.getKalahaBoard(), turn);
         });
+        log.info("KalahaGame {} is finished", kalahaGame);
         kalahaGame.setGameState(GameState.FINISHED);
 
         return kalahaGame;
@@ -44,7 +45,7 @@ public class KalahaPostFinishGameRule implements KalahaRule {
     private void emptyPlayerPitsByPlayerTurnAndPutStonesOnPlayerHouse(KalahaBoard kalahaBoard, PlayerTurn playerTurn) {
         log.info("Empty Player Pits By Player Turn And Put Stones On Player House");
         KalahaPit playerHouse = kalahaBoard.getPits().stream()
-                .filter(kalahaGameHelper.getGetPlayerHouse()).toList().get(0);
+                .filter(kalahaGameHelper.getGetPlayerHouse(playerTurn)).toList().get(0);
 
         kalahaBoard.getPits().stream()
                 .filter(kalahaGameHelper.getPlayerPits(playerTurn))

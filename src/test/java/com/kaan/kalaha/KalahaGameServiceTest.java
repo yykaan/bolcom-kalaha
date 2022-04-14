@@ -7,6 +7,8 @@ import com.kaan.kalaha.exception.GameNotFoundException;
 import com.kaan.kalaha.exception.UserNotLoggedInException;
 import com.kaan.kalaha.repository.KalahaGameRepository;
 import com.kaan.kalaha.service.AuthService;
+import com.kaan.kalaha.service.KalahaBoardService;
+import com.kaan.kalaha.service.KalahaPitService;
 import com.kaan.kalaha.service.impl.KalahaGameServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +34,12 @@ public class KalahaGameServiceTest {
 
     @Mock
     KalahaGameRepository kalahaGameRepository;
+
+    @Mock
+    KalahaBoardService kalahaBoardService;
+
+    @Mock
+    KalahaPitService kalahaPitService;
 
     @Mock
     AuthService authService;
