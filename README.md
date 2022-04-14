@@ -49,15 +49,22 @@ Frontend
  
 # Screen Shots (Not Sorry for top level UI/UX:facepalm:)
 
-Login
-![Screen Shot 2022-04-13 at 22 12 18](https://user-images.githubusercontent.com/16269104/163253176-2433da74-f76b-452b-bb0c-de4201d43d42.png)
-Register
-![Screen Shot 2022-04-13 at 22 13 30](https://user-images.githubusercontent.com/16269104/163253347-a209049d-d511-465b-9ed6-c16df2da7aaa.png)
-Lobby
-![Screen Shot 2022-04-13 at 22 14 23](https://user-images.githubusercontent.com/16269104/163253464-1634c35a-e4c8-4731-a1a7-d97781569779.png)
-Lobby (List of available games)
-![Screen Shot 2022-04-13 at 22 15 07](https://user-images.githubusercontent.com/16269104/163253575-725fc0f6-9152-4975-ae09-ad7242c66e57.png)
-Game
-![Screen Shot 2022-04-13 at 22 15 42](https://user-images.githubusercontent.com/16269104/163253621-c8fa8686-77b3-4159-8a8a-e9d2575aa3b9.png)
+## Login
 
+![Screen Shot 2022-04-14 at 12 53 47](https://user-images.githubusercontent.com/16269104/163362224-cca385a2-e5ee-4f2a-98bc-326ac3e7c111.png)
 
+## Register
+
+![Screen Shot 2022-04-14 at 12 54 44](https://user-images.githubusercontent.com/16269104/163362264-6838172a-fc00-47a8-ba3e-8bebad01e41c.png)
+
+## Lobby
+
+![Screen Shot 2022-04-14 at 12 55 47](https://user-images.githubusercontent.com/16269104/163362324-56f17093-d12b-4575-83b2-cecc8d836832.png)
+
+## Lobby (List of available games)
+
+![Screen Shot 2022-04-14 at 12 56 25](https://user-images.githubusercontent.com/16269104/163362333-70a884c8-755c-4656-8d68-e83c41443fea.png)
+
+##Game
+
+![Screen Shot 2022-04-14 at 12 57 22](https://user-images.githubusercontent.com/16269104/163362372-93678cd2-cbf6-4823-acfe-621e1ec59c36.png)
